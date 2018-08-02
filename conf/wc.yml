@@ -1,0 +1,3 @@
+http:
+  port: 8011
+  context_path: /wxproxy
