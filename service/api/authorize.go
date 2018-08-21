@@ -86,6 +86,24 @@ func (s *ApiServiceImpl) UpdateAuthorizerInfo(componentAppid string, authorizerA
 	return
 }
 
+func (s *ApiServiceImpl) UpdateAuthorizationAppNotifyUrl(componentAppid string,
+	appid string,
+	notifyUrl string,
+	mode int,
+	debugNotifyUrl string) error {
+	item := model.AuthorizationAppInfo{
+		ComponentAppid:componentAppid,
+		Appid:appid,
+		NotifyUrl:notifyUrl,
+		Mode:mode,
+		DebugNotifyUrl:debugNotifyUrl,
+	}
+	_,err := s.Repo.MergeAuthorizationAppInfo(&item)
+	//清除缓存
+	defer delete(authAppInfos,appid)
+	return err
+}
+
 //时间通知时的应用授权
 func (s *ApiServiceImpl) DoAuthorize(componentAppid string, authorizerAppid string, authorizationCode string) (string, error) {
 	s.lock.Lock()

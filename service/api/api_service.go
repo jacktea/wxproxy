@@ -34,6 +34,8 @@ type ApiService interface {
 	GetAppAccessToken(componentAppid string, appid string) (string, error)
 	//更新托管公众号(小程序)信息
 	UpdateAuthorizerInfo(componentAppid string,authorizerAppid string)  error
+	//更新托管公众号(小程序)回调地址
+	UpdateAuthorizationAppNotifyUrl(componentAppid string,appid string,notifyUrl string,mode int,debugNotifyUrl string) error
 
 	//公众号(小程序)授权时通知回调
 	DoAuthorize(componentAppid string,authorizerAppid string,authorizationCode string) (string,error)

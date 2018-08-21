@@ -161,7 +161,7 @@ __请求方式：__ `POST`
 
 __请 求 头：__ `Content-Type: application/x-www-form-urlencoded;charset=utf-8`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/api/upauthappinfo/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api/account/upappnotifyurl/三方应用appid/公众号appid`
 
 __请求参数：__
 
@@ -210,7 +210,7 @@ __响应内容：__
 
 __请求方式：__ `GET`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/api/getauthappinfo/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api//account/getauthappinfo/三方应用appid/公众号appid`
 
 __响应内容：__
 
@@ -228,6 +228,7 @@ __响应内容：__
 | alias | string | 授权方公众号所设置的微信号，可能为空 | 
 | businessInfo | string | 业务功能开通情况 | 
 | qrcodeUrl | string | 二维码图片的URL，开发者最好自行也进行保存 | 
+| accessToken | string | 访问token | 
 | accessTokenExpire | string | 访问token过期时间 | 
 | authorizationStatus | string | 公众号授权状态 0 无效 1 授权成功 2 取消授权 |
 | mode | int | 通知模式 1普通 2调试 |

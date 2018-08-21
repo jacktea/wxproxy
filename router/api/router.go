@@ -20,8 +20,11 @@ func (this *ApiAction) InitRouter(app *bootstrap.Bootstrapper) {
 	r.Post("/token/upauthtoken/{componentAppid}/{appid}",this.RefreshAppAuthorizationToken)
 
 	//更新托管账号基本信息
-	r.Post("/authorize/upappinfo/{componentAppid}/{appid}",this.UpdateAppInfo)
-
+	r.Post("/account/upappinfo/{componentAppid}/{appid}",this.UpdateAppInfo)
+	//更新托管账号回调地址
+	r.Post("/account/upappnotifyurl/{componentAppid}/{appid}",this.UpdateAuthorizationAppNotifyUrl)
+	//获取托管公众号的信息
+	r.Get("/account/getauthappinfo/{componentAppid}/{appid}",this.GetAuthAppInfo)
 	//创建带参关注二维码
 	r.Post("/account/createqrcode/{componentAppid}/{appid}",this.CreateParamQrcode)
 
