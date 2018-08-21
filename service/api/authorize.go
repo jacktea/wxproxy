@@ -67,6 +67,10 @@ func (s *ApiServiceImpl) UpdateAuthorizerInfo(componentAppid string, authorizerA
 	err = executeApi(uri, params, &resp)
 	if err == nil {
 		aInfo := resp.AuthorizerInfo
+		miniProgram := 0
+		if aInfo.MiniProgramInfo != nil {//当前为小程序
+			miniProgram = 1
+		}
 		dbInfo := &model.AuthorizationInfo{
 			Appid:           authorizerAppid,
 			NickName:        aInfo.NickName,
@@ -79,6 +83,7 @@ func (s *ApiServiceImpl) UpdateAuthorizerInfo(componentAppid string, authorizerA
 			BusinessInfo:    toJsonStr(aInfo.BusinessInfo),
 			QrcodeUrl:       aInfo.QrcodeUrl,
 			Signature:       aInfo.Signature,
+			Miniprogram:	 miniProgram,
 		}
 		defer delete(authInfos, authorizerAppid)
 		s.Repo.MergeAuthorizationInfo(dbInfo)

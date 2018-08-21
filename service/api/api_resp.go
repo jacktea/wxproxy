@@ -51,6 +51,7 @@ type AuthorizerInfo struct {
 	Alias string						`json:"alias"`						//授权方公众号所设置的微信号，可能为空
 	QrcodeUrl string					`json:"qrcode_url"`					//二维码图片的URL，开发者最好自行也进行保存
 	Signature string					`json:"signature"`					//帐号介绍
+	MiniProgramInfo *MiniProgramInfo	`json:"MiniProgramInfo"`			//小程序信息
 }
 
 type AuthorizationInfo struct {
@@ -64,6 +65,12 @@ type AuthorizationInfo struct {
 
 type FuncInfoItem struct {
 	FuncscopeCategory map[string]int	`json:"funcscope_category"`
+}
+
+type MiniProgramInfo struct {
+	Network map[string]interface{}		`json:"network"`
+	Categories []map[string]string		`json:"categories"`
+	VisitStatus int64					`json:"visit_status"`
 }
 
 type AuthAccessToken struct {

@@ -98,7 +98,7 @@ CREATE TABLE `wx_authorization_info` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC
 ```
 
-## 2. 功能
+## 2. 公众号
 
 ### 2.1 公众号授权
 
@@ -210,7 +210,7 @@ __响应内容：__
 
 __请求方式：__ `GET`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/api//account/getauthappinfo/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api/account/getauthappinfo/三方应用appid/公众号appid`
 
 __响应内容：__
 
@@ -424,3 +424,527 @@ __响应内容：__
 | qr_scene | long |	二维码扫码场景（开发者自定义）|
 | qr_scene_str | string |	二维码扫码场景描述（开发者自定义）|
 
+## 3. 小程序
+
+### 3.1 修改服务器地址
+
+#### 3.1.1 设置小程序服务器域名
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/domain/modify/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+  {
+    "action":"add",
+    "requestdomain":["https://www.qq.com","https://www.qq.com"],
+    "wsrequestdomain":["wss://www.qq.com","wss://www.qq.com"],
+    "uploaddomain":["https://www.qq.com","https://www.qq.com"],
+    "downloaddomain":["https://www.qq.com","https://www.qq.com"],
+  }
+```
+
+| 参数名称       | 描述                |
+| :---------- | :----------------- |
+| action | add添加, delete删除, set覆盖, get获取。当参数是get时不需要填四个域名字段 |  
+| requestdomain | request合法域名，当action参数是get时不需要此字段 | 
+| wsrequestdomain | socket合法域名，当action参数是get时不需要此字段 | 
+| uploaddomain | uploadFile合法域名，当action参数是get时不需要此字段 | 
+| downloaddomain | downloadFile合法域名，当action参数是get时不需要此字段 | 
+
+__响应内容：__
+
+```json
+  {
+    "errcode":0,
+    "errmsg":"ok",
+    "requestdomain":["https://www.qq.com","https://www.qq.com"],
+    "wsrequestdomain":["wss://www.qq.com","wss://www.qq.com"],
+    "uploaddomain":["https://www.qq.com","https://www.qq.com"],
+    "downloaddomain":["https://www.qq.com","https://www.qq.com"],
+  }
+```
+
+#### 3.1.2 设置小程序业务域名
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/domain/setwebviewdomain/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+  {
+    "action":"add",
+    "webviewdomain":["https://www.qq.com","https://m.qq.com"]
+  }
+```
+
+| 参数名称       | 描述                |
+| :---------- | :----------------- |
+| action | add添加, delete删除, set覆盖, get获取。当参数是get时不需要填 |  
+| webviewdomain | 小程序业务域名，当action参数是get时不需要此字段 | 
+
+__响应内容：__
+
+```json
+  {
+    "errcode":0,
+    "errmsg":"ok"
+  }
+```
+
+### 3.2 小程序基本信息设置
+
+#### 3.2.1 获取帐号基本信息
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/info/getaccountbasicinfo/三方应用appid/公众号appid`
+
+__响应内容：__
+
+```json
+  {
+    "errcode": 0,
+    "errmsg": "ok",
+    "appid": "wxdc685123d955453",
+    "account_type": 2,
+    "principal_type": 1,
+    "principal_name": "深圳市腾讯计算机系统有限公司",
+    "realname_status": 1,
+    "wx_verify_info": {
+        "qualification_verify": 1,
+        "naming_verify": 1,
+        "annual_review": 1,
+        "annual_review_begin_time": 1550490981,
+        "annual_review_end_time": 1558266981,
+    },
+    "signature_info": {
+        "signature": "功能介绍",
+        "modify_used_count": 1,
+        "modify_quota": 5,
+    },
+    "head_image_info": {
+        "head_image_url": "http://mmbiz.qpic.cn/mmbiz/a5icZrUmbV8p5jb6RZ8aYfjfS2AVle8URwBt8QIu6XbGewB9wiaWYWkPwq4R7pfdsFibuLkic16UcxDSNYtB8HnC1Q/0",
+        "modify_used_count": 3,
+        "modify_quota": 5,
+    }
+  }
+```
+
+#### 3.2.2 小程序名称设置及改名
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/info/setnickname/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+  {
+    "nick_name": "XXX公司",
+    "id_card": "12345678-0",
+    "license": "广州市新港中路397号TIT创意园",
+    "naming_other_stuff_1": "3LaLzqiTrQcD20DlX_o-OV1-nlYMu7sdVAL7SV2PrxVyjZFZZmB3O6LPGaYXlZWq",
+    "naming_other_stuff_2": "",
+    "naming_other_stuff_3": "",
+    "naming_other_stuff_4": "",
+    "naming_other_stuff_5": "",
+
+  }
+```
+
+__响应内容：__
+
+```json
+  {
+    "errcode": 0,
+    "errmsg": "ok",
+    "wording": "",
+    "audit_id": 12345
+  }
+```
+
+#### 3.2.3 小程序改名审核状态查询
+
+#### 3.2.4 微信认证名称检测
+
+#### 3.2.5 修改头像
+
+#### 3.2.5 修改功能介绍
+
+### 3.3 成员管理
+
+### 3.4 代码管理
+
+#### 3.4.1 为授权的小程序帐号上传小程序代码
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/commit/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+  {
+    "template_id":0,
+    "ext_json":"JSON_STRING", //*ext_json需为string类型，请参考下面的格式*
+    "user_version":"V1.0",
+    "user_desc":"test"
+  }
+```
+** ext_json需为string类型，格式示例如下 ：**
+```json
+{
+    extAppid:"",
+    ext:{
+        "attr1":"value1",
+        "attr2":"value2",
+    },
+    extPages:{
+        "index":{
+        },
+        "search/index":{
+        },
+    },
+    pages:["index","search/index"],
+    "window":{
+    },
+    "networkTimeout":{
+    },
+    "tabBar":{
+    }
+}
+```
+
+__响应内容：__
+
+```json
+  {
+    "errcode": 0,
+    "errmsg": "ok"
+  }
+```
+
+#### 3.4.2 获取体验小程序的体验二维码
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getqrcode/三方应用appid/公众号appid`
+
+__响应内容：__
+
+成功时返回图片
+失败时返回JSON格式错误码
+```json
+{
+    "errcode":-1,
+    "errmsg":"system error"
+}
+```
+
+#### 3.4.3 获取授权小程序帐号的可选类目
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getcategroy/三方应用appid/公众号appid`
+
+__响应内容：__
+
+```json
+{
+    "errcode":0,
+    "errmsg": "ok",
+    "category_list" : [
+        {
+            "first_class":"工具",
+            "second_class":"备忘录"，
+            "first_id":1,
+            "second_id":2,
+        }
+        {
+            "first_class":"教育",
+            "second_class":"学历教育",
+            "third_class":"高等"
+            "first_id":3,
+            "second_id":4,
+            "third_id":5,
+        }
+    ]
+}
+```
+
+#### 3.4.4 获取小程序的第三方提交代码的页面配置
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getpage/三方应用appid/公众号appid`
+
+__响应内容：__
+
+```json
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "page_list":[
+        "index",
+        "page\/list",
+        "page\/detail"
+    ]
+}
+```
+
+#### 3.4.5 将第三方提交的代码包提交审核
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/submitaudit/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+{
+    "item_list": [
+    {
+        "address":"index",
+        "tag":"学习 生活",
+        "first_class": "文娱",
+        "second_class": "资讯",
+        "first_id":1,
+        "second_id":2,
+        "title": "首页"
+    },{
+        "address":"page/logs/logs",
+        "tag":"学习 工作",
+        "first_class": "教育",
+        "second_class": "学历教育",
+        "third_class": "高等",
+        "first_id":3,
+        "second_id":4,
+        "third_id":5,
+        "title": "日志"
+    }
+  ]
+}
+```
+
+__响应内容：__
+
+```json
+  {
+  "errcode":0,
+  "errmsg":"ok",
+  "auditid":1234567 //审核编号需保存
+  }
+```
+
+#### 3.4.6 查询某个指定版本的审核状态
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/queryauditstatus/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+{
+  "auditid":1234567 //送审时返回的编号
+}
+```
+
+__响应内容：__
+
+```json
+  {
+    "errcode":0,
+    "errmsg":"ok",
+    "status":1, //审核状态，其中0为审核成功，1为审核失败，2为审核中
+    "reason":"帐号信息不合规范"//当status=1，审核被拒绝时，返回的拒绝原因
+  }
+```
+
+#### 3.4.7 查询最新一次提交的审核状态
+
+__请求方式：__ `GET`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/querylastauditstatus/三方应用appid/公众号appid`
+
+__响应内容：__
+
+```json
+  {
+    "errcode":0,
+    "errmsg":"ok",
+    "status":1, //审核状态，其中0为审核成功，1为审核失败，2为审核中
+    "reason":"帐号信息不合规范"//当status=1，审核被拒绝时，返回的拒绝原因
+  }
+```
+
+#### 3.4.8 发布已通过审核的小程序
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/dorelease/三方应用appid/公众号appid`
+
+__请求参数：__
+
+__响应内容：__
+
+```json
+  {
+    "errcode":0,
+    "errmsg":"ok"
+  }
+```
+
+#### 3.4.9 修改小程序线上代码的可见状态
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/changevisitstatus/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+{
+  "action":"close" //设置可访问状态，发布后默认可访问，close为不可见，open为可见
+}
+```
+
+__响应内容：__
+
+```json
+  {
+    "errcode":0,
+    "errmsg":"ok"
+  }
+```
+
+#### 3.4.10 小程序版本回退
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/revertcoderelease/三方应用appid/公众号appid`
+
+__响应内容：__
+
+```json
+  {
+    "errcode":0,
+    "errmsg":"ok"
+  }
+```
+
+#### 3.4.11 查询当前设置的最低基础库版本及各版本用户占比
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/queryweappsupportversion/三方应用appid/公众号appid`
+
+__请求参数：__
+
+__响应内容：__
+
+```json
+  {
+      "errcode": 0,
+      "errmsg": "ok",
+      "now_version": "1.0.0",
+      "uv_info": {
+          "items": [{
+                  "percentage": 0,
+                  "version": "1.0.0"
+              },
+              {
+                  "percentage": 0,
+                  "version": "1.0.1"
+              },
+              {
+                  "percentage": 0,
+                  "version": "1.1.0"
+              }
+              .....
+          ]
+      } 
+  }
+```
+
+#### 3.4.12 设置最低基础库版本
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/setminweappsupportversion/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+{
+"version":"1.0.0"
+}
+```
+
+__响应内容：__
+
+```json
+{
+"errcode" : 0,
+"errmsg" : "ok"
+}
+```
+
+### 3.5 小程序代码模版库管理
+
+### 3.6 微信登录
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/user/login/三方应用appid/公众号appid?js_code=JSCODE`
+
+__请求参数：__
+
+| 参数名称       | 类型     | 描述             |
+| :---------- | :------ | :----------------- |
+| js_code | String | 登录时获取的 code |  
+
+
+__响应内容：__
+
+```json
+{
+  "openid":"OPENID",
+  "session_key":"SESSIONKEY"
+}
+```
+
+### 3.7 小程序模板设置
+
+### 3.8 微信开放平台帐号管理
+
+### 3.9 基础信息设置
+
+### 3.10 小程序插件管理权限集

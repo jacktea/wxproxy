@@ -18,6 +18,7 @@ type AuthorizationInfo struct {
 	QrcodeUrl string						//二维码图片的URL，开发者最好自行也进行保存
 	Signature string						//帐号介绍
 	//Status string							//状态 0 无效 1 授权成功 2 取消授权
+	Miniprogram int							//是否为小程序 0 不是 1 是
 	CreateTime time.Time `xorm:"created"`
 	ModifyTime time.Time `xorm:"updated"`
 }
