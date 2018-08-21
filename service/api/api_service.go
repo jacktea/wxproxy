@@ -26,6 +26,8 @@ type ApiService interface {
 	UpdateAccessToken(appId string,force bool) (*model.AppBaseInfo,error)
 	//更新第三方应用预授权码
 	UpdatePreAuthCode(appId string,force bool) error
+	//获取第三方应用访问token
+	GetComponentAppAccessToken(componentAppid string) (string, error)
 	//刷新托管公众号(小程序)访问Token
 	RefreshAuthorizationToken(componentAppid string,appid string,force bool) (*model.AuthorizationAccessInfo,error)
 	//获取托管公众号(小程序)访问Token

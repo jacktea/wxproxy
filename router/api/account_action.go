@@ -5,7 +5,7 @@ import (
 	"github.com/jacktea/wxproxy/service"
 )
 
-//获取用户基本信息
+//创建带参二维码
 func (a *ApiAction) CreateParamQrcode(c iris.Context) {
 	componentAppid := c.Params().Get("componentAppid")
 	appid := c.Params().Get("appid")
@@ -27,3 +27,4 @@ func (a *ApiAction) CreateParamQrcode(c iris.Context) {
 	}
 	c.JSON(resp)
 }
+

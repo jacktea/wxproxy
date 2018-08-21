@@ -142,3 +142,11 @@ func (this *ApiServiceImpl) GetAppAccessToken(componentAppid string, appid strin
 	accessToken := info.AccessToken
 	return accessToken, err
 }
+
+func (this *ApiServiceImpl) GetComponentAppAccessToken(componentAppid string) (string, error) {
+	if info, ok := this.CacheFindAppBaseInfo(componentAppid);ok {
+		return info.ComponentAccessToken,nil
+	}else {
+		return "",NO_DATA
+	}
+}

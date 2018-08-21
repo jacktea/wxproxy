@@ -19,11 +19,13 @@ func (this *ApiAction) InitRouter(app *bootstrap.Bootstrapper) {
 	r.Post("/token/upcmpcode/{appid:string}",this.UpdateCmpCode)
 	r.Post("/token/upauthtoken/{componentAppid}/{appid}",this.RefreshAppAuthorizationToken)
 
-	//更新托管账好基本信息
+	//更新托管账号基本信息
 	r.Post("/authorize/upappinfo/{componentAppid}/{appid}",this.UpdateAppInfo)
 
 	//创建带参关注二维码
 	r.Post("/account/createqrcode/{componentAppid}/{appid}",this.CreateParamQrcode)
+
+
 	//获取用户基本信息
 	r.Post("/user/info/{componentAppid}/{appid}",this.GetUserBaseInfo)
 	//发送客服消息

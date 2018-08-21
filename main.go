@@ -21,6 +21,7 @@ import (
 	"bufio"
 	"os/signal"
 	"syscall"
+	"github.com/jacktea/wxproxy/router/mini"
 )
 
 var (
@@ -129,7 +130,8 @@ func startWeb(conf *config.Config) {
 		new(api.ApiAction),
 		new(notify.NotifyAction),
 		new(authorize.AuthorizeAction),
-		new(wxauth.AuthAction))
+		new(wxauth.AuthAction),
+		new(mini.MiniAction))
 	b.AutoInject().
 		Bootstrap().
 		InitMiddleware().
