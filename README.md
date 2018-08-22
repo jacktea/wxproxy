@@ -444,7 +444,7 @@ __请求参数：__
     "requestdomain":["https://www.qq.com","https://www.qq.com"],
     "wsrequestdomain":["wss://www.qq.com","wss://www.qq.com"],
     "uploaddomain":["https://www.qq.com","https://www.qq.com"],
-    "downloaddomain":["https://www.qq.com","https://www.qq.com"],
+    "downloaddomain":["https://www.qq.com","https://www.qq.com"]
   }
 ```
 
@@ -465,7 +465,7 @@ __响应内容：__
     "requestdomain":["https://www.qq.com","https://www.qq.com"],
     "wsrequestdomain":["wss://www.qq.com","wss://www.qq.com"],
     "uploaddomain":["https://www.qq.com","https://www.qq.com"],
-    "downloaddomain":["https://www.qq.com","https://www.qq.com"],
+    "downloaddomain":["https://www.qq.com","https://www.qq.com"]
   }
 ```
 
@@ -514,27 +514,27 @@ __响应内容：__
   {
     "errcode": 0,
     "errmsg": "ok",
-    "appid": "wxdc685123d955453",
-    "account_type": 2,
-    "principal_type": 1,
-    "principal_name": "深圳市腾讯计算机系统有限公司",
+    "appid": "wxdc685123d955453", //帐号appid
+    "account_type": 2,            //帐号类型（1：订阅号，2：服务号，3：小程序）
+    "principal_type": 1,          //主体类型（1：企业）
+    "principal_name": "深圳市腾讯计算机系统有限公司",//主体名称
     "realname_status": 1,
-    "wx_verify_info": {
+    "wx_verify_info": {           //微信认证信息
         "qualification_verify": 1,
         "naming_verify": 1,
         "annual_review": 1,
         "annual_review_begin_time": 1550490981,
-        "annual_review_end_time": 1558266981,
+        "annual_review_end_time": 1558266981
     },
-    "signature_info": {
+    "signature_info": {           //功能介绍信息
         "signature": "功能介绍",
         "modify_used_count": 1,
-        "modify_quota": 5,
+        "modify_quota": 5
     },
-    "head_image_info": {
+    "head_image_info": {          //头像信息
         "head_image_url": "http://mmbiz.qpic.cn/mmbiz/a5icZrUmbV8p5jb6RZ8aYfjfS2AVle8URwBt8QIu6XbGewB9wiaWYWkPwq4R7pfdsFibuLkic16UcxDSNYtB8HnC1Q/0",
         "modify_used_count": 3,
-        "modify_quota": 5,
+        "modify_quota": 5
     }
   }
 ```
@@ -558,7 +558,7 @@ __请求参数：__
     "naming_other_stuff_2": "",
     "naming_other_stuff_3": "",
     "naming_other_stuff_4": "",
-    "naming_other_stuff_5": "",
+    "naming_other_stuff_5": ""
 
   }
 ```
@@ -569,8 +569,8 @@ __响应内容：__
   {
     "errcode": 0,
     "errmsg": "ok",
-    "wording": "",
-    "audit_id": 12345
+    "wording": "",    //材料说明
+    "audit_id": 12345 //审核单id
   }
 ```
 
@@ -583,6 +583,82 @@ __响应内容：__
 #### 3.2.5 修改功能介绍
 
 ### 3.3 成员管理
+
+#### 3.3.1 绑定微信用户为小程序体验者
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/bind/bindtester/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+  {
+    "wechatid":"testid"   //微信号
+  }
+```
+
+__响应内容：__
+
+```json
+  {
+    "errcode": 0,
+    "errmsg": "ok",
+    "userstr":"xxxxxxxxx" //人员对应的唯一字符串,解绑时有用
+  }
+```
+
+#### 3.3.2 解除绑定小程序的体验者
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/bind/unbindtester/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+  {
+    "wechatid":"testid",   //微信号
+    "userstr":"xxxxxx"    //人员对应的唯一字符串（可通过获取体验者api获取已绑定人员的字符串，userstr和wechatid填写其中一个即可）
+  }
+```
+
+__响应内容：__
+
+```json
+  {
+    "errcode": 0,
+    "errmsg": "ok"
+  }
+```
+
+#### 3.3.3 获取体验者列表
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/bind/memberauth/三方应用appid/公众号appid`
+
+__请求参数：__
+
+__响应内容：__
+
+```json
+  {
+    "errcode": 0,
+    "errmsg": "ok",
+    "members":[{              //人员列表
+      "userstr" : "xxxxxxxx"  //人员对应的唯一字符串
+    },{
+      "userstr" : "yyyyyyyy"
+    }]
+  }
+```
 
 ### 3.4 代码管理
 
@@ -598,27 +674,27 @@ __请求参数：__
 
 ```json
   {
-    "template_id":0,
+    "template_id":0,          //代码库中的代码模版ID
     "ext_json":"JSON_STRING", //*ext_json需为string类型，请参考下面的格式*
-    "user_version":"V1.0",
-    "user_desc":"test"
+    "user_version":"V1.0",    //代码版本号，开发者可自定义
+    "user_desc":"test"        //代码描述，开发者可自定义
   }
 ```
 ** ext_json需为string类型，格式示例如下 ：**
 ```json
 {
-    extAppid:"",
-    ext:{
+    "extAppid":"",            //授权方Appid，可填入商户AppID，以区分不同商户
+    "ext":{                   //自定义字段仅允许在这里定义，可在小程序中调用
         "attr1":"value1",
-        "attr2":"value2",
+        "attr2":"value2"
     },
-    extPages:{
+    "extPages":{              //页面配置
         "index":{
         },
         "search/index":{
-        },
+        }
     },
-    pages:["index","search/index"],
+    "pages":["index","search/index"],
     "window":{
     },
     "networkTimeout":{
@@ -666,20 +742,19 @@ __响应内容：__
 {
     "errcode":0,
     "errmsg": "ok",
-    "category_list" : [
+    "category_list" : [               //可填选的类目列表
         {
-            "first_class":"工具",
-            "second_class":"备忘录"，
-            "first_id":1,
-            "second_id":2,
-        }
-        {
+            "first_class":"工具",       //一级类目名称
+            "second_class":"备忘录",    //二级类目名称
+            "first_id":1,              //一级类目的ID编号
+            "second_id":2              //二级类目的ID编号
+        },{
             "first_class":"教育",
             "second_class":"学历教育",
-            "third_class":"高等"
+            "third_class":"高等",       //三级类目名称
             "first_id":3,
             "second_id":4,
-            "third_id":5,
+            "third_id":5                //三级类目的ID编号
         }
     ]
 }
@@ -697,7 +772,7 @@ __响应内容：__
 {
     "errcode":0,
     "errmsg":"ok",
-    "page_list":[
+    "page_list":[         //page_list 页面配置列表
         "index",
         "page\/list",
         "page\/detail"
@@ -717,15 +792,15 @@ __请求参数：__
 
 ```json
 {
-    "item_list": [
+    "item_list": [                //提交审核项的一个列表（至少填写1项，至多填写5项）
     {
-        "address":"index",
-        "tag":"学习 生活",
-        "first_class": "文娱",
-        "second_class": "资讯",
-        "first_id":1,
-        "second_id":2,
-        "title": "首页"
+        "address":"index",        //小程序的页面，可通过“获取小程序的第三方提交代码的页面配置”接口获得
+        "tag":"学习 生活",         //小程序的标签，多个标签用空格分隔，标签不能多于10个，标签长度不超过20
+        "first_class": "文娱",    //一级类目名称，可通过“获取授权小程序帐号的可选类目”接口获得
+        "second_class": "资讯",   //二级类目(同上)
+        "first_id":1,             //一级类目的ID，可通过“获取授权小程序帐号的可选类目”接口获得
+        "second_id":2,            //二级类目的ID(同上)
+        "title": "首页"           //小程序页面的标题,标题长度不超过32
     },{
         "address":"page/logs/logs",
         "tag":"学习 工作",
@@ -872,21 +947,19 @@ __响应内容：__
   {
       "errcode": 0,
       "errmsg": "ok",
-      "now_version": "1.0.0",
-      "uv_info": {
+      "now_version": "1.0.0",       //当前版本
+      "uv_info": {                  //受影响用户占比，item参数里面为一系列数组，每个数组带有参数percentage（受影响比例）以及version（版本号）
           "items": [{
                   "percentage": 0,
                   "version": "1.0.0"
-              },
-              {
+              },{
                   "percentage": 0,
                   "version": "1.0.1"
-              },
-              {
+              },{
                   "percentage": 0,
                   "version": "1.1.0"
+              },{
               }
-              .....
           ]
       } 
   }
@@ -904,7 +977,7 @@ __请求参数：__
 
 ```json
 {
-"version":"1.0.0"
+  "version":"1.0.0"
 }
 ```
 
@@ -918,6 +991,112 @@ __响应内容：__
 ```
 
 ### 3.5 小程序代码模版库管理
+
+#### 3.5.1 获取草稿箱内的所有临时代码草稿
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/gettemplatedraftlist/三方应用appid/公众号appid`
+
+__请求参数：__
+
+__响应内容：__
+
+```json
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "draft_template_list":[{ 
+    "create_time": 1488965944,  //开发者上传草稿时间
+    "user_version": "VVV",      //模版版本号，开发者自定义字段
+    "user_desc": "AAS",         //模版描述 开发者自定义字段
+    "draft_id":0                //草稿id
+  },{ 
+    "create_time": 1504790906,
+    "user_version": "11",
+    "user_desc": "111111",
+    "draft_id": 4 
+   }]
+}
+```
+
+#### 3.5.2 获取代码模版库中的所有小程序代码模版
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/gettemplatelist/三方应用appid/公众号appid`
+
+__请求参数：__
+
+__响应内容：__
+
+```json
+{
+  "errcode": 0,
+  "errmsg": "ok",
+  "template_list":[{ 
+    "create_time": 1488965944,  //被添加为模版的时间
+    "user_version": "VVV",      //模版版本号，开发者自定义字段
+    "user_desc": "AAS",         //模版描述 开发者自定义字段
+    "template_id":0             //模版id
+  },{ 
+    "create_time": 1504790906,
+    "user_version": "11",
+    "user_desc": "111111",
+    "template_id": 4 
+   }]
+}
+```
+
+#### 3.5.3 将草稿箱的草稿选为小程序代码模版
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/addtotemplate/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+{
+  "draft_id":0 //草稿ID，本字段可通过“ 获取草稿箱内的所有临时代码草稿 ”接口获得
+}
+```
+
+__响应内容：__
+
+```json
+{
+"errcode" : 0,
+"errmsg" : "ok"
+}
+```
+
+#### 3.5.4 删除指定小程序代码模版
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/deletetemplate/三方应用appid/公众号appid`
+
+__请求参数：__
+
+```json
+{
+  "template_id":0 //要删除的模版ID
+}
+```
+
+__响应内容：__
+
+```json
+{
+"errcode" : 0,
+"errmsg" : "ok"
+}
+```
 
 ### 3.6 微信登录
 
@@ -936,8 +1115,8 @@ __响应内容：__
 
 ```json
 {
-  "openid":"OPENID",
-  "session_key":"SESSIONKEY"
+  "openid":"OPENID",          //用户唯一标识的openid
+  "session_key":"SESSIONKEY"  //会话密钥
 }
 ```
 

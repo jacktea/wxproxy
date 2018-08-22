@@ -25,6 +25,10 @@ func (this *MiniAction) InitRouter(app *bootstrap.Bootstrapper) {
 	r.Get("/info/getaccountbasicinfo/{componentAppid}/{appid}",this.Getaccountbasicinfo)
 	r.Post("/info/setnickname/{componentAppid}/{appid}",this.Setnickname)
 
+	r.Post("/bind/bindtester/{componentAppid}/{appid}",this.BindTester)
+	r.Post("/bind/unbindtester/{componentAppid}/{appid}",this.UnBindTester)
+	r.Post("/bind/memberauth/{componentAppid}/{appid}",this.Memberauth)
+
 	r.Post("/code/commit/{componentAppid}/{appid}",this.Commit)
 	r.Get("/code/getqrcode/{componentAppid}/{appid}",this.GetQrCode)
 	r.Get("/code/getcategroy/{componentAppid}/{appid}",this.GetCategory)
@@ -38,7 +42,7 @@ func (this *MiniAction) InitRouter(app *bootstrap.Bootstrapper) {
 	r.Post("/code/queryweappsupportversion/{componentAppid}/{appid}",this.QueryWeAppSupportVersion)
 	r.Post("/code/setminweappsupportversion/{componentAppid}/{appid}",this.SetMinWeAppSupportVersion)
 
-	r.Get("/codetplmgr/Gettemplatedraftlist/{componentAppid}",this.Gettemplatedraftlist)
+	r.Get("/codetplmgr/gettemplatedraftlist/{componentAppid}",this.Gettemplatedraftlist)
 	r.Get("/codetplmgr/gettemplatelist/{componentAppid}",this.Gettemplatelist)
 	r.Post("/codetplmgr/addtotemplate/{componentAppid}",this.Addtotemplate)
 	r.Post("/codetplmgr/deletetemplate/{componentAppid}",this.Deletetemplate)
