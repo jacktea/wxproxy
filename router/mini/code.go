@@ -3,6 +3,11 @@ package mini
 import (
 	"github.com/kataras/iris"
 	. "github.com/jacktea/wxproxy/common"
+	"github.com/jacktea/wxproxy/service"
+	"fmt"
+	"github.com/jacktea/wxproxy/utils"
+	"io"
+	"strings"
 )
 
 // 为授权的小程序帐号上传小程序代码
@@ -13,6 +18,33 @@ func (this *MiniAction) Commit(c iris.Context) {
 // 获取体验小程序的体验二维码
 func (this *MiniAction) GetQrCode(c iris.Context)  {
 	this.getTransparentJson(c,GET_MINI_QRCODE)
+}
+
+func (this *MiniAction) GetQrCodeEx(c iris.Context)  {
+	componentAppid := c.Params().Get("componentAppid")
+	appid := c.Params().Get("appid")
+	path := c.FormValue("path")
+	resp := this.MiniSvr.GetQrCode(componentAppid,appid,path)
+	if resp.IsSuccess() {
+		url := fmt.Sprintf("%s://%s%s",utils.Scheme(c.Request()),c.Host(),c.Path()) + "/" + resp.Url
+		resp.Url = strings.Replace(url,"getqrcodeex","prevqrcode",1)
+	}
+	c.JSON(resp)
+}
+
+func (this *MiniAction) PrevQrCode(c iris.Context)  {
+	componentAppid := c.Params().Get("componentAppid")
+	appid := c.Params().Get("appid")
+	fName := c.Params().Get("fName")
+	b,err := this.MiniSvr.DownLoadQrCode(componentAppid,appid,fName)
+	defer b.Close()
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return
+	}else {
+		c.ContentType("image/jpeg")
+		io.Copy(c.ResponseWriter(),b)
+	}
 }
 
 // 获取授权小程序帐号的可选类目

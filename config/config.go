@@ -16,6 +16,7 @@ type Config struct {
 	DBConf *DBConf			`json:"db"`
 	EtcdConf *EtcdConf		`json:"etcd"`
 	HttpConf *HttpConf		`json:"http"`
+	OssConf *OssConf		`json:"oss"`
 }
 
 type CommonConf struct {
@@ -52,6 +53,14 @@ type HttpConf struct {
 	ContextPath string	`json:"context_path"`
 }
 
+type OssConf struct {
+	Endpoint string			`json:"endpoint"`
+	AccessKeyId string		`json:"access_key_id"`
+	AccessKeySecret string	`json:"access_key_secret"`
+	BucketName string		`json:"bucket_name"`
+	Enabled bool			`json:"enabled"`
+}
+
 var WXConf *Config
 
 func NewConfig(confPath string) (*Config,error) {
@@ -64,6 +73,7 @@ func NewConfig(confPath string) (*Config,error) {
 			AppOwner:"zzg",
 			AppPath:appPath,
 			WorkPath:workPath,
+			DataPath:"data",
 		},
 		DBConf:&DBConf{
 			DriveName:"mysql",
@@ -85,6 +95,9 @@ func NewConfig(confPath string) (*Config,error) {
 		HttpConf:&HttpConf{
 			Port:8011,
 			ContextPath:"/wxproxy",
+		},
+		OssConf:&OssConf{
+			Enabled:false,
 		},
 	}
 

@@ -83,6 +83,7 @@ func (a *ApiAction) GetAuthAppInfo(c iris.Context)  {
 	m["businessInfo"] = info.BusinessInfo
 	m["qrcodeUrl"] = info.QrcodeUrl
 	m["signature"] = info.Signature
+	m["miniprogram"] = info.Miniprogram
 	aaInfo,ok := a.Svr.CacheFindAuthorizationAccessInfo(componentAppid,appid)
 	if ok {
 		m["accessToken"] = aaInfo.AccessToken

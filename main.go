@@ -22,6 +22,7 @@ import (
 	"os/signal"
 	"syscall"
 	"github.com/jacktea/wxproxy/router/mini"
+	"github.com/jacktea/wxproxy/service/miniprogram"
 )
 
 var (
@@ -121,12 +122,14 @@ func startWeb(conf *config.Config) {
 	engine := model.NewEngine(conf.DBConf)
 	apiModel := model.NewApiModel()
 	apiService := sapi.NewApiService()
+	miniApiService := miniprogram.NewMiniApiService()
 
 	b := bootstrap.New(conf)
 	b.RegistBeans(
 		engine,
 		apiModel,
 		apiService,
+		miniApiService,
 		new(api.ApiAction),
 		new(notify.NotifyAction),
 		new(authorize.AuthorizeAction),
@@ -161,6 +164,7 @@ func waitSignal() {
 
 func main() {
 
+	log.SetLevel("debug")
 	master,err := initConfig()
 	if err != nil {
 		log.Fatal(err)

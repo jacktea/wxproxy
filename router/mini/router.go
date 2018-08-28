@@ -10,12 +10,14 @@ import (
 	"github.com/jacktea/wxproxy/utils"
 	"github.com/kataras/iris/context"
 	"net/http"
+	"github.com/jacktea/wxproxy/service/miniprogram"
 )
 
 var log = golog.Default
 
 type MiniAction struct {
 	Svr api.ApiService	`inject:""`
+	MiniSvr miniprogram.MiniApiService `inject:""`
 }
 
 func (this *MiniAction) InitRouter(app *bootstrap.Bootstrapper) {
@@ -31,6 +33,8 @@ func (this *MiniAction) InitRouter(app *bootstrap.Bootstrapper) {
 
 	r.Post("/code/commit/{componentAppid}/{appid}",this.Commit)
 	r.Get("/code/getqrcode/{componentAppid}/{appid}",this.GetQrCode)
+	r.Get("/code/getqrcodeex/{componentAppid}/{appid}",this.GetQrCodeEx)
+	r.Get("/code/prevqrcode/{componentAppid}/{appid}/{fName}",this.PrevQrCode)
 	r.Get("/code/getcategroy/{componentAppid}/{appid}",this.GetCategory)
 	r.Get("/code/getpage/{componentAppid}/{appid}",this.GetPage)
 	r.Post("/code/submitaudit/{componentAppid}/{appid}",this.SubmitAudit)

@@ -14,6 +14,15 @@ func (s *ApiServiceImpl) CacheFindAppBaseInfo(appId string) (info *model.AppBase
 			appBaseInfos[appId] = info
 		}
 	}
+	if info != nil && info.TokenIsExpired() {
+		log.Info("获取三方应用基本信息遇到token失效时，更新第三方应用访问Token",appId)
+		info,err := s.updateAccessToken(appId)
+		if err != nil {
+			return nil,false
+		}else {
+			return info,ok
+		}
+	}
 	return
 }
 
@@ -24,6 +33,15 @@ func (s *ApiServiceImpl) CacheFindAuthorizationAccessInfo(componentAppid string,
 	if info, ok = authAccessInfos[key]; !ok {
 		if info, ok = s.Repo.FindAuthorizationAccessInfo(componentAppid, appid); ok {
 			authAccessInfos[key] = info
+		}
+	}
+	if info != nil && info.TokenIsExpired() {
+		log.Info("获取授权应用授权信息遇到token失效时，更新访问Token",key)
+		info,err := s.refreshAuthorizationToken(componentAppid,appid,info.RefreshToken)
+		if err != nil {
+			return nil,false
+		}else {
+			return info,true
 		}
 	}
 	return
