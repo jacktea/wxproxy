@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"os"
 	"path/filepath"
+	"crypto/md5"
 )
 
 //解析过期时间
@@ -68,4 +69,9 @@ func ValidatePath(dirs []string) (string,bool) {
 		}
 	}
 	return "",false
+}
+
+func Md5(in string) string {
+	has := md5.Sum([]byte(in))
+	return fmt.Sprintf("%x",has)
 }

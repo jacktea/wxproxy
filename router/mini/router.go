@@ -35,6 +35,7 @@ func (this *MiniAction) InitRouter(app *bootstrap.Bootstrapper) {
 	r.Get("/code/getqrcode/{componentAppid}/{appid}",this.GetQrCode)
 	r.Get("/code/getqrcodeex/{componentAppid}/{appid}",this.GetQrCodeEx)
 	r.Get("/code/prevqrcode/{componentAppid}/{appid}/{fName}",this.PrevQrCode)
+	r.Post("/code/preview/{componentAppid}/{appid}",this.Preview)
 	r.Get("/code/getcategroy/{componentAppid}/{appid}",this.GetCategory)
 	r.Get("/code/getpage/{componentAppid}/{appid}",this.GetPage)
 	r.Post("/code/submitaudit/{componentAppid}/{appid}",this.SubmitAudit)

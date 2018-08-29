@@ -70,13 +70,28 @@ func HttpPostBody(uri string, contextType string,bodyData []byte) (retBody []byt
 
 
 
-func HttpPostJson(uri string,params map[string]interface{},ret interface{}) (err error) {
-	var retBody []byte
-	jsonBytes , err := json.Marshal(params)
-	if retBody, err = HttpPostBody(uri,"application/json",jsonBytes) ; err==nil {
-		err = json.Unmarshal(retBody, ret)
+func HttpPostJson(uri string,params map[string]interface{},ret interface{}) error {
+	if jsonBytes , err := json.Marshal(params);err != nil {
+		return err
+	}else {
+		return HttpPostBodyJson(uri,jsonBytes,ret)
 	}
-	return
+
+	//if err != nil {
+	//	return
+	//}
+	//if retBody, err = HttpPostBody(uri,"application/json",jsonBytes) ; err==nil {
+	//	err = json.Unmarshal(retBody, ret)
+	//}
+	//return
+}
+
+func HttpPostBodyJson(uri string,bodyData []byte,ret interface{}) error {
+	if retBody, err := HttpPostBody(uri,"application/json",bodyData) ; err != nil {
+		return err
+	}else {
+		return json.Unmarshal(retBody, ret)
+	}
 }
 
 func HttpGetProxy(uri string) (header http.Header,retBody []byte, err error) {

@@ -24,6 +24,12 @@ type ModelRepository interface {
 
 	FindAuthorizationInfo(appid string) (*AuthorizationInfo, bool)
 	MergeAuthorizationInfo(aai *AuthorizationInfo) (bool, error)
+
+	//查找小程序的预览信息
+	FindMiniPrgmPrevInfo(appid string) (*MiniPrgmPrevInfo,bool)
+	//更新小程序的预览信息
+	MergeMiniPrgmPrevInfo(aai *MiniPrgmPrevInfo) (ret bool ,err error)
+
 }
 
 type proxyModel struct {

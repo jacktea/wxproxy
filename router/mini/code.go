@@ -8,6 +8,7 @@ import (
 	"github.com/jacktea/wxproxy/utils"
 	"io"
 	"strings"
+	"io/ioutil"
 )
 
 // 为授权的小程序帐号上传小程序代码
@@ -45,6 +46,27 @@ func (this *MiniAction) PrevQrCode(c iris.Context)  {
 		c.ContentType("image/jpeg")
 		io.Copy(c.ResponseWriter(),b)
 	}
+}
+
+func (this *MiniAction) Preview(c iris.Context) {
+	componentAppid := c.Params().Get("componentAppid")
+	appid := c.Params().Get("appid")
+	path := c.URLParam("path")
+	force,err := c.URLParamBool("force")
+	if err != nil {
+		force = false
+	}
+	data,err := ioutil.ReadAll(c.Request().Body)
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return
+	}
+	ret := this.MiniSvr.MiniPreview(componentAppid,appid,string(data),path,force)
+	if ret.IsSuccess() {
+		url := fmt.Sprintf("%s://%s%s",utils.Scheme(c.Request()),c.Host(),c.Path()) + "/" + ret.Url
+		ret.Url = strings.Replace(url,"preview","prevqrcode",1)
+	}
+	c.JSON(ret)
 }
 
 // 获取授权小程序帐号的可选类目
