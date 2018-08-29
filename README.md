@@ -766,7 +766,8 @@ __响应内容：__
 ```json
   {
     "errcode": 0,
-    "errmsg": "ok"
+    "errmsg": "ok",
+    "url": "http://www.ishanshan.com/wxproxy/mini/code/prevqrcode/wx7c44bb2354440737/wxfd1cd3fd79937051/20180829124436"
   }
 ```
 
