@@ -55,7 +55,7 @@ type AuthAction struct {
 func (this *AuthAction) InitRouter(app *bootstrap.Bootstrapper) {
 	party := app.Party(WXConf.HttpConf.ContextPath+"/wxauth")
 	party.Get("/apply/{action_type}/{component_appid}/{appid}",this.WxApply)
-	party.Get("/apply/{action_type}/{component_appid}/{appid}/do/{url}",this.WxApply)
+	party.Get("/apply/{action_type}/{component_appid}/{appid}/do/{url}",this.WxDo)
 	party.Any("/wx/userinfo",this.Userinfo)
 	party.Get("/wx/jp/userinfo",this.Userinfo)
 	party.Any("/wx/jsconfig/{component_appid}/{appid}",this.Jsticket)

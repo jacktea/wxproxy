@@ -164,7 +164,6 @@ func waitSignal() {
 
 func main() {
 
-	log.SetLevel("debug")
 	master,err := initConfig()
 	if err != nil {
 		log.Fatal(err)
@@ -174,6 +173,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.SetLevel(conf.CommonConf.LogLevel)
 	if master {
 		waitSignal()
 	}else {

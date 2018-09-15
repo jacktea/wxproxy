@@ -9,5 +9,6 @@ db:
   charset: utf8
   user_name: jpss
   password: Jpss541018!
-oss:
-  enabled: false
+common: 
+  log_level: debug
+

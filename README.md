@@ -793,7 +793,36 @@ __响应内容：__
 
 __请求方式：__ `GET`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getqrcodeex/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getqrcodeex/三方应用appid/公众号appid?path=`
+
+__请求参数：__
+
+| 参数名称       | 类型     | 是否必须 | 描述                |
+| :---------- | :------ | :---- | :----------------- |
+| path | string | 否    | 小程序内页面路径 | 
+
+__响应内容：__
+
+```json
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "url": "http://127.0.0.1:8011/wxproxy/mini/code/prevqrcode/wx7c44bb2354440737/wxfd1cd3fd79937051/20180829112437"
+}
+```
+
+
+### 3.4.5 获取体验小程序的二维码
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getwxqrcode/三方应用appid/公众号appid?path=&scene=&force=false`
+
+| 参数名称       | 类型     | 是否必须 | 描述                |
+| :---------- | :------ | :---- | :----------------- |
+| path  | string | 否    | 小程序内页面路径 | 
+| scene | string | 否    | 自定义参数 | 
+| force | bool   | 否    | 强制重新获取 | 
 
 __响应内容：__
 

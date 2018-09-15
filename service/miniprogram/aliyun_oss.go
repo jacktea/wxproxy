@@ -15,9 +15,19 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
+	"strconv"
 )
 
-type saveAction func(body []byte,contentType string,componentAppid,appid,fName string) error
+/**
+ * 保存函数定义
+ * params	body 			内容
+ * params 	contentType		内容类型
+ * params 	componentAppid	三方应用Appid(目录)
+ * params 	appid		    小程序appid(目录)
+ * params 	fName		    文件名
+ * params 	force		    强制更新
+ */
+type saveAction func(body []byte,contentType string,componentAppid,appid,fName string,force bool) error
 
 //var ossConf = WXConf.OssConf
 
@@ -66,7 +76,7 @@ func handleError(err error) *QrCodeResp {
 }
 
 //获取预览二维码
-func (this *MimiApiServiceImpl) GetQrCode(componentAppid ,appid ,path string) *QrCodeResp {
+func (this *MimiApiServiceImpl) GetQrCode(componentAppid ,appid ,path string,force bool) *QrCodeResp {
 	token,err := this.Svr.GetAppAccessToken(componentAppid,appid)
 	if err != nil {
 		return handleError(err)
@@ -76,11 +86,33 @@ func (this *MimiApiServiceImpl) GetQrCode(componentAppid ,appid ,path string) *Q
 		reqUrl += "&path="+url.QueryEscape(path)
 	}
 	if !WXConf.OssConf.Enabled {
-		return localSave(reqUrl,componentAppid,appid)
+		return localSave(reqUrl,componentAppid,appid,force)
 	}else {
-		return ossSave(reqUrl,componentAppid,appid)
+		return ossSave(reqUrl,componentAppid,appid,force)
 	}
 	//return upload(OssDefaultBucket,reqUrl,componentAppid,appid)
+}
+
+//获取小程序二维码
+func (this *MimiApiServiceImpl) GetWxQrCode(componentAppid ,appid ,path,scene string,force bool) *QrCodeResp {
+	token,err := this.Svr.GetAppAccessToken(componentAppid,appid)
+	if err != nil {
+		return handleError(err)
+	}
+	reqUrl := GET_MINI_WXQRCODE + "?access_token=" + token
+	params := make(map[string]interface{},0)
+	if scene == "" {
+		scene = string(utils.Random(10))
+	}
+	params["scene"] = scene
+	if path != "" {
+		params["path"] = path
+	}
+	if !WXConf.OssConf.Enabled {
+		return localPostSave(reqUrl,params,componentAppid,appid,force)
+	}else {
+		return ossPostSave(reqUrl,params,componentAppid,appid,force)
+	}
 }
 
 //查看预览二维码图片
@@ -103,6 +135,19 @@ func getObjectName(componentAppid,appid,fName string) string {
 	return objectName
 }
 
+//检测文件是否存在
+func checkFileExists(componentAppid,appid,fName string,isOss bool) bool {
+	if isOss {
+		objectName := getObjectName(componentAppid,appid,fName)
+		client := DefaultOssBucket()
+		ok,_ := client.IsObjectExist(objectName)
+		return ok
+	}else {
+		path := localFilePath(componentAppid,appid,fName)
+		return utils.FileExists(path)
+	}
+}
+
 //本地文件存放路径
 func localFilePath(componentAppid, appid, fName string) string {
 	file := fmt.Sprintf("%v/miniprogram/%v/%v/%v",WXConf.CommonConf.DataPath,componentAppid,appid,fName)
@@ -122,9 +167,56 @@ func ossLoad(componentAppid, appid, fName string) (io.ReadCloser,error) {
 	return DefaultOssBucket().GetObject(objectName)
 }
 
+func postSave(url string, params map[string]interface{}, componentAppid, appid string,force bool, action saveAction) *QrCodeResp {
+	jsonBytes , err := json.Marshal(params)
+	if err != nil {
+		return handleError(err)
+	}
+	fName := utils.Md5(string(jsonBytes))
+
+	//如果文件存在并且不是强制刷新，则直接返回
+	if checkFileExists(componentAppid,appid,fName,WXConf.OssConf.Enabled) && !force {
+		ret := new(QrCodeResp)
+		ret.Errcode = 0
+		ret.Errmsg = "ok"
+		ret.Url = fName
+		return ret
+	}
+
+	header,body,err := utils.HttpPostProxy(url,"application/json",jsonBytes)
+	if err != nil {
+		return handleError(err)
+	}
+
+	contentType := header.Get("Content-Type")
+	if strings.HasPrefix(contentType,"image/") {
+		idx := strings.Index(contentType,";")
+		if idx != -1 {
+			contentType = contentType[:idx]
+		}
+		err := action(body,contentType,componentAppid,appid,fName,force)
+		if err != nil {
+			return handleError(err)
+		}else{
+			ret := new(QrCodeResp)
+			ret.Errcode = 0
+			ret.Errmsg = "ok"
+			ret.Url = fName
+			return ret
+		}
+	}else {
+		ret := new(QrCodeResp)
+		if err := json.Unmarshal(body,ret);err != nil {
+			return handleError(err)
+		}else {
+			return ret
+		}
+	}
+}
+
 //保存图片
-func save(url, componentAppid, appid string,action saveAction) *QrCodeResp {
-	fName := time.Now().Format("20060102030405")
+func save(url, componentAppid, appid string,force bool, action saveAction) *QrCodeResp {
+	fName := strconv.FormatInt(time.Now().UnixNano()/1e6,10)
 	header,body,err := utils.HttpGetProxy(url)
 	if err != nil {
 		return handleError(err)
@@ -135,7 +227,7 @@ func save(url, componentAppid, appid string,action saveAction) *QrCodeResp {
 		if idx != -1 {
 			contentType = contentType[:idx]
 		}
-		err := action(body,contentType,componentAppid,appid,fName)
+		err := action(body,contentType,componentAppid,appid,fName,force)
 		if err != nil {
 			return handleError(err)
 		}else{
@@ -156,35 +248,64 @@ func save(url, componentAppid, appid string,action saveAction) *QrCodeResp {
 }
 
 //保存在OSS
-func ossSave(url, componentAppid, appid string) *QrCodeResp {
-	return save(url,componentAppid,appid, func(body []byte, contentType string, componentAppid,appid,fName string) error {
-		objectName := getObjectName(componentAppid,appid,fName)
-		return DefaultOssBucket().PutObject(objectName,bytes.NewReader(body),oss.ContentType(contentType))
-	})
+func ossSave(url, componentAppid, appid string,force bool) *QrCodeResp {
+	return save(url,componentAppid,appid,force, ossSaveAction)
+}
+
+//保存在OSS
+func ossPostSave(url string,params map[string]interface{}, componentAppid, appid string,force bool) *QrCodeResp {
+	return postSave(url,params,componentAppid,appid,force, ossSaveAction)
 }
 
 //本地保存
-func localSave(url, componentAppid, appid string) *QrCodeResp {
-	return save(url,componentAppid,appid, func(body []byte, contentType string, componentAppid,appid,fName string) error {
-		path := localFilePath(componentAppid,appid,fName)
-		dir := filepath.Dir(path)
-		if !utils.FileExists(dir) {
-			if err := os.MkdirAll(dir,0751) ; err != nil {
-				return err
-			}
+func localSave(url, componentAppid, appid string,force bool) *QrCodeResp {
+	return save(url,componentAppid,appid,force, localSaveAction)
+}
+
+//本地保存
+func localPostSave(url string,params map[string]interface{}, componentAppid, appid string,force bool) *QrCodeResp {
+	return postSave(url,params,componentAppid,appid,force,localSaveAction)
+}
+
+func ossSaveAction(body []byte, contentType string, componentAppid, appid, fName string,force bool) error {
+	objectName := getObjectName(componentAppid,appid,fName)
+	client := DefaultOssBucket()
+	ok,_ := client.IsObjectExist(objectName)
+	if !ok {
+		return client.PutObject(objectName,bytes.NewReader(body),oss.ContentType(contentType))
+	}else if force{
+		client.DeleteObject(objectName)
+		return client.PutObject(objectName,bytes.NewReader(body),oss.ContentType(contentType))
+	}
+	return nil
+}
+
+func localSaveAction(body []byte, contentType string, componentAppid, appid, fName string,force bool) error {
+	path := localFilePath(componentAppid,appid,fName)
+	if utils.FileExists(path) && !force {
+		return nil
+	}
+	dir := filepath.Dir(path)
+	if !utils.FileExists(dir) {
+		if err := os.MkdirAll(dir,0751) ; err != nil {
+			return err
 		}
-		pthSep := string(os.PathSeparator)
-		filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-			if info == nil {
-				return err
-			}
-			if !info.IsDir() {
-				log.Error(os.Remove(dir+pthSep+info.Name()))
-			}
-			return nil
-		})
-		return ioutil.WriteFile(path,body,0660)
-	})
+	}
+	//pthSep := string(os.PathSeparator)
+	//now := time.Now().UnixNano()/1e6
+	//filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+	//	if info == nil {
+	//		return err
+	//	}
+	//	if !info.IsDir() {
+	//		//删除1h之前的文件
+	//		if v,err := strconv.ParseInt(info.Name(), 10, 64);err == nil && (now-v > 3600000) {
+	//			log.Error(os.Remove(dir+pthSep+info.Name()))
+	//		}
+	//	}
+	//	return nil
+	//})
+	return ioutil.WriteFile(path,body,0660)
 }
 
 //func upload(bucket *oss.Bucket,url,componentAppid ,appid string) *QrCodeResp {

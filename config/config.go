@@ -26,6 +26,7 @@ type CommonConf struct {
 	WorkPath string		`json:"work_path"`
 	ConfPath string		`json:"conf_path"`//配置文件路径
 	DataPath string     `json:"data_path"`//数据目录
+	LogLevel string		`json:"log_level"`//日志级别
 }
 
 type DBConf struct {
@@ -74,6 +75,7 @@ func NewConfig(confPath string) (*Config,error) {
 			AppPath:appPath,
 			WorkPath:workPath,
 			DataPath:"data",
+			LogLevel:"info",
 		},
 		DBConf:&DBConf{
 			DriveName:"mysql",

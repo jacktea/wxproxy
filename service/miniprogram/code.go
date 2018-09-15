@@ -35,7 +35,7 @@ func (this *MimiApiServiceImpl) miniPreview(componentAppid, appid,token string, 
 	if !ret.IsSuccess() {
 		return ret
 	}
-	ret = this.GetQrCode(componentAppid,appid,path)
+	ret = this.GetQrCode(componentAppid,appid,path,true)
 	info := new(model.MiniPrgmPrevInfo)
 	info.Appid = appid
 	info.JsonMd5 = utils.Md5(json)

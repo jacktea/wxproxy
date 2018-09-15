@@ -11,7 +11,8 @@ import (
 var log = golog.Default
 
 type MiniApiService interface {
-	GetQrCode(componentAppid ,appid ,path string) *QrCodeResp
+	GetQrCode(componentAppid ,appid ,path string,force bool) *QrCodeResp
+	GetWxQrCode(componentAppid ,appid , path, scene string,force bool) *QrCodeResp
 	DownLoadQrCode(componentAppid,appid,fName string) (io.ReadCloser,error)
 	//小程序预览
 	MiniPreview(componentAppid, appid string, json string,path string,force bool) *QrCodeResp

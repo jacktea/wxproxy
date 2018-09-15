@@ -9,6 +9,7 @@ import (
 	"io"
 	"strings"
 	"io/ioutil"
+	"strconv"
 )
 
 // 为授权的小程序帐号上传小程序代码
@@ -20,15 +21,31 @@ func (this *MiniAction) Commit(c iris.Context) {
 func (this *MiniAction) GetQrCode(c iris.Context)  {
 	this.getTransparentJson(c,GET_MINI_QRCODE)
 }
-
+// 体验小程序二维码
 func (this *MiniAction) GetQrCodeEx(c iris.Context)  {
 	componentAppid := c.Params().Get("componentAppid")
 	appid := c.Params().Get("appid")
 	path := c.FormValue("path")
-	resp := this.MiniSvr.GetQrCode(componentAppid,appid,path)
+	force,_ := strconv.ParseBool(c.FormValueDefault("force","true"))
+	resp := this.MiniSvr.GetQrCode(componentAppid,appid,path,force)
 	if resp.IsSuccess() {
 		url := fmt.Sprintf("%s://%s%s",utils.Scheme(c.Request()),c.Host(),c.Path()) + "/" + resp.Url
 		resp.Url = strings.Replace(url,"getqrcodeex","prevqrcode",1)
+	}
+	c.JSON(resp)
+}
+
+// 小程序二维码
+func (this *MiniAction) GetWxQrCode(c iris.Context)  {
+	componentAppid := c.Params().Get("componentAppid")
+	appid := c.Params().Get("appid")
+	path := c.FormValue("path")
+	scene := c.FormValue("scene")
+	force,_ := strconv.ParseBool(c.FormValueDefault("force","false"))
+	resp := this.MiniSvr.GetWxQrCode(componentAppid,appid,path,scene,force)
+	if resp.IsSuccess() {
+		url := fmt.Sprintf("%s://%s%s",utils.Scheme(c.Request()),c.Host(),c.Path()) + "/" + resp.Url
+		resp.Url = strings.Replace(url,"getwxqrcode","prevqrcode",1)
 	}
 	c.JSON(resp)
 }
