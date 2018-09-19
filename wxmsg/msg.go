@@ -5,15 +5,15 @@ import (
 )
 
 type AppMsg struct {
-	XMLName      					xml.Name `xml:"xml"`
-	AppId 							string	//第三方平台appid
-	CreateTime 						int64	//时间戳
-	InfoType 						string	//component_verify_ticket,unauthorized是取消授权，updateauthorized是更新授权，authorized是授权成功通知
-	ComponentVerifyTicket 			string	//Ticket内容
-	AuthorizerAppid					string	//公众号或小程序
-	AuthorizationCode				string 	//可用于换取公众号的接口调用凭据，详细见上面的说明
-	AuthorizationCodeExpiredTime	string 	//授权码过期时间
-	PreAuthCode						string	//预授权码
+	XMLName      					xml.Name `xml:"xml" json:"-"`
+	AppId 							string	`json:"AppId,omitempty"`//第三方平台appid
+	CreateTime 						int64	`json:"CreateTime,omitempty"`//时间戳
+	InfoType 						string	`json:"InfoType,omitempty"`//component_verify_ticket,unauthorized是取消授权，updateauthorized是更新授权，authorized是授权成功通知
+	ComponentVerifyTicket 			string	`json:"ComponentVerifyTicket,omitempty"`//Ticket内容
+	AuthorizerAppid					string	`json:"AuthorizerAppid,omitempty"`//公众号或小程序
+	AuthorizationCode				string 	`json:"AuthorizationCode,omitempty"`//可用于换取公众号的接口调用凭据，详细见上面的说明
+	AuthorizationCodeExpiredTime	string 	`json:"AuthorizationCodeExpiredTime,omitempty"`//授权码过期时间
+	PreAuthCode						string	`json:"PreAuthCode,omitempty"`//预授权码
 }
 
 type BaseMsg struct {

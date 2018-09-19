@@ -74,7 +74,23 @@ func (this *NotifyAction) Notify(c iris.Context) {
 	case "unauthorized": //取消授权通知
 		go this.Svr.AuthorizedCancel(componentAppid, oMsg.AuthorizerAppid)
 	}
+	go this.notifyApp(componentAppid,oMsg.AuthorizerAppid,oMsg)
+
 	c.WriteString("success")
+}
+
+func (this *NotifyAction) notifyApp(componentAppid, appid string,msg interface{}) {
+	if appid == "" {
+		return
+	}
+	if info, b := this.Svr.CacheFindAuthorizationAppInfo(componentAppid, appid); b {
+		if data, err := json.Marshal(msg); err == nil {
+			postJson(info.NotifyUrl, data)
+			if info.Mode == 2 {
+				go postJson(info.DebugNotifyUrl, data)
+			}
+		}
+	}
 }
 
 func (this *NotifyAction) NotifyApp(c iris.Context) {

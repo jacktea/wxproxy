@@ -28,7 +28,7 @@ func (ab *AuthorizationAccessInfo) TokenIsExpired() bool {
 
 func (m *proxyModel) FindAuthorizationAccessInfo(componentAppid string,appid string) (*AuthorizationAccessInfo,bool)  {
 	items := make([]*AuthorizationAccessInfo,0)
-	err := m.Engine.Where("component_appid = ? and appid = ?",componentAppid,appid).Find(&items)
+	err := m.Engine.Where("component_appid = ? and appid = ? and status = ? ",componentAppid,appid,"1").Find(&items)
 	if err != nil{
 		log.Error(err)
 		return nil,false

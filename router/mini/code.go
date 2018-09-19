@@ -10,6 +10,7 @@ import (
 	"strings"
 	"io/ioutil"
 	"strconv"
+	"github.com/kataras/iris/context"
 )
 
 // 为授权的小程序帐号上传小程序代码
@@ -54,13 +55,19 @@ func (this *MiniAction) PrevQrCode(c iris.Context)  {
 	componentAppid := c.Params().Get("componentAppid")
 	appid := c.Params().Get("appid")
 	fName := c.Params().Get("fName")
+	down,_ := c.URLParamBool("down")
 	b,err := this.MiniSvr.DownLoadQrCode(componentAppid,appid,fName)
 	defer b.Close()
 	if err != nil {
 		c.JSON(service.NewServerErrorResp(err))
 		return
 	}else {
-		c.ContentType("image/jpeg")
+		if down {
+			c.ContentType(context.ContentBinaryHeaderValue)
+			c.Header("Content-Disposition","attachment; filename=qrcode.jpg")
+		}else {
+			c.ContentType("image/jpeg")
+		}
 		io.Copy(c.ResponseWriter(),b)
 	}
 }
