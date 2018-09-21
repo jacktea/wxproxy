@@ -120,7 +120,15 @@ __回调请求(GET)：__ `http://www.ishanshan.com?appid=你的appid&componentAp
 
 __请求方式：__ `POST`
 
+__请 求 头：__ `Content-Type: application/x-www-form-urlencoded;charset=utf-8`
+
 __访问地址：__ `http://www.ishanshan.com/wxproxy/api/token/upcmptoken/三方应用appid`
+
+__请求参数：__
+
+| 参数名称       | 类型     | 是否必须 | 描述                |
+| :---------- | :------ | :---- | :----------------- |
+| force | bool | 否    | 强制重新获取 |  
 
 __响应内容：__
 
@@ -133,7 +141,15 @@ __响应内容：__
 
 __请求方式：__ `POST`
 
+__请 求 头：__ `Content-Type: application/x-www-form-urlencoded;charset=utf-8`
+
 __访问地址：__ `http://www.ishanshan.com/wxproxy/api/token/upcmpcode/三方应用appid`
+
+__请求参数：__
+
+| 参数名称       | 类型     | 是否必须 | 描述                |
+| :---------- | :------ | :---- | :----------------- |
+| force | bool | 否    | 强制重新获取 |  
 
 __响应内容：__
 
@@ -146,7 +162,15 @@ __响应内容：__
 
 __请求方式：__ `POST`
 
+__请 求 头：__ `Content-Type: application/x-www-form-urlencoded;charset=utf-8`
+
 __访问地址：__ `http://www.ishanshan.com/wxproxy/api/token/upauthtoken/三方应用appid/公众号appid`
+
+__请求参数：__
+
+| 参数名称       | 类型     | 是否必须 | 描述                |
+| :---------- | :------ | :---- | :----------------- |
+| force | bool | 否    | 强制重新获取 |  
 
 __响应内容：__
 
@@ -812,16 +836,37 @@ __响应内容：__
 ```
 
 
-### 3.4.5 获取小程序的二维码
+### 3.4.5 获取小程序的二维码(个数限制)
 
 __请求方式：__ `GET`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getwxqrcode/三方应用appid/公众号appid?path=&scene=&force=false`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getwxacode/三方应用appid/公众号appid?path=&force=false`
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
 | path  | string | 否    | 小程序内页面路径 | 
-| scene | string | 否    | 自定义参数 | 
+| force | bool   | 否    | 强制重新获取 | 
+
+__响应内容：__
+
+```json
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "url": "http://127.0.0.1:8011/wxproxy/mini/code/prevqrcode/wx7c44bb2354440737/wxfd1cd3fd79937051/20180829112437"
+}
+```
+
+### 3.4.6 获取小程序的二维码(个数不限)
+
+__请求方式：__ `GET`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getwxacodeunlimit/三方应用appid/公众号appid?page=&scene=&force=false`
+
+| 参数名称       | 类型     | 是否必须 | 描述                |
+| :---------- | :------ | :---- | :----------------- |
+| path  | string | 否    | 小程序内页面路径 | 
+| scene  | string | 否    | 页面参数 | 
 | force | bool   | 否    | 强制重新获取 | 
 
 __响应内容：__

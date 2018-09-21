@@ -94,17 +94,13 @@ func (this *MimiApiServiceImpl) GetQrCode(componentAppid ,appid ,path string,for
 }
 
 //获取小程序二维码
-func (this *MimiApiServiceImpl) GetWxQrCode(componentAppid ,appid ,path,scene string,force bool) *QrCodeResp {
+func (this *MimiApiServiceImpl) GetWxACode(componentAppid ,appid ,path string,force bool) *QrCodeResp {
 	token,err := this.Svr.GetAppAccessToken(componentAppid,appid)
 	if err != nil {
 		return handleError(err)
 	}
-	reqUrl := GET_MINI_WXQRCODE + "?access_token=" + token
+	reqUrl := GET_MINI_WXACODE + "?access_token=" + token
 	params := make(map[string]interface{},0)
-	if scene == "" {
-		scene = string(utils.Random(10))
-	}
-	params["scene"] = scene
 	if path != "" {
 		params["path"] = path
 	}
@@ -114,6 +110,50 @@ func (this *MimiApiServiceImpl) GetWxQrCode(componentAppid ,appid ,path,scene st
 		return ossPostSave(reqUrl,params,componentAppid,appid,force)
 	}
 }
+
+//获取小程序二维码
+func (this *MimiApiServiceImpl) GetWxACodeUnlimit(componentAppid ,appid ,page,scene string,force bool) *QrCodeResp {
+	token,err := this.Svr.GetAppAccessToken(componentAppid,appid)
+	if err != nil {
+		return handleError(err)
+	}
+	reqUrl := GET_MINI_WXACODEUNLIMIT + "?access_token=" + token
+	params := make(map[string]interface{},0)
+	if scene == "" {
+		scene = string(utils.Random(10))
+	}
+	params["scene"] = scene
+	if page != "" {
+		params["page"] = page
+	}
+	if !WXConf.OssConf.Enabled {
+		return localPostSave(reqUrl,params,componentAppid,appid,force)
+	}else {
+		return ossPostSave(reqUrl,params,componentAppid,appid,force)
+	}
+}
+
+//获取小程序二维码
+//func (this *MimiApiServiceImpl) GetWxQrCode(componentAppid ,appid ,page,scene string,force bool) *QrCodeResp {
+//	token,err := this.Svr.GetAppAccessToken(componentAppid,appid)
+//	if err != nil {
+//		return handleError(err)
+//	}
+//	reqUrl := GET_MINI_WXQRCODE + "?access_token=" + token
+//	params := make(map[string]interface{},0)
+//	if scene == "" {
+//		scene = string(utils.Random(10))
+//	}
+//	params["scene"] = scene
+//	if page != "" {
+//		params["page"] = page
+//	}
+//	if !WXConf.OssConf.Enabled {
+//		return localPostSave(reqUrl,params,componentAppid,appid,force)
+//	}else {
+//		return ossPostSave(reqUrl,params,componentAppid,appid,force)
+//	}
+//}
 
 //查看预览二维码图片
 func (this *MimiApiServiceImpl) DownLoadQrCode(componentAppid,appid,fName string) (io.ReadCloser,error){

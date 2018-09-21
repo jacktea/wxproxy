@@ -68,8 +68,14 @@ const (
 	UPLOAD_MINI_COMMITCODE = "https://api.weixin.qq.com/wxa/commit"
 	//2. 获取体验小程序的体验二维码 https://api.weixin.qq.com/wxa/ get_qrcode?access_token=TOKEN&path=page%2Findex%3Faction%3D1
 	GET_MINI_QRCODE = "https://api.weixin.qq.com/wxa/get_qrcode"
-	//2. 获取体验小程序的二维码 POST https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=ACCESS_TOKEN
+	//2. 获取小程序的二维码 POST https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=ACCESS_TOKEN
 	GET_MINI_WXQRCODE = "https://api.weixin.qq.com/wxa/getwxacodeunlimit"
+	//获取小程序码，适用于需要的码数量较少的业务场景。通过该接口生成的小程序码，永久有效，有数量限制
+	//POST https://api.weixin.qq.com/wxa/getwxacode?access_token=ACCESS_TOKEN
+	GET_MINI_WXACODE = "https://api.weixin.qq.com/wxa/getwxacode"
+	//获取小程序码，适用于需要的码数量极多的业务场景。通过该接口生成的小程序码，永久有效，数量暂无限制。
+	//POST https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=ACCESS_TOKEN
+	GET_MINI_WXACODEUNLIMIT = "https://api.weixin.qq.com/wxa/getwxacodeunlimit"
 	//3. 获取授权小程序帐号的可选类目 https://api.weixin.qq.com/wxa/get_category?access_token=TOKEN
 	GET_MINI_CATEGORY = "https://api.weixin.qq.com/wxa/get_category"
 	//4. 获取小程序的第三方提交代码的页面配置（仅供第三方开发者代小程序调用） GET https://api.weixin.qq.com/wxa/get_page?access_token=TOKEN

@@ -34,7 +34,8 @@ func (this *MiniAction) InitRouter(app *bootstrap.Bootstrapper) {
 	r.Post("/code/commit/{componentAppid}/{appid}",this.Commit)
 	r.Get("/code/getqrcode/{componentAppid}/{appid}",this.GetQrCode)
 	//小程序二维码
-	r.Get("/code/getwxqrcode/{componentAppid}/{appid}",this.GetWxQrCode)
+	r.Get("/code/getwxacode/{componentAppid}/{appid}",this.GetWXACode)
+	r.Get("/code/getwxacodeunlimit/{componentAppid}/{appid}",this.GetWXACodeUnlimit)
 	//小程序预览二维码
 	r.Get("/code/getqrcodeex/{componentAppid}/{appid}",this.GetQrCodeEx)
 	r.Get("/code/prevqrcode/{componentAppid}/{appid}/{fName}",this.PrevQrCode)

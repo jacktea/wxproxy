@@ -37,16 +37,45 @@ func (this *MiniAction) GetQrCodeEx(c iris.Context)  {
 }
 
 // 小程序二维码
-func (this *MiniAction) GetWxQrCode(c iris.Context)  {
+//func (this *MiniAction) GetWxQrCode(c iris.Context)  {
+//	componentAppid := c.Params().Get("componentAppid")
+//	appid := c.Params().Get("appid")
+//	page := c.FormValue("page")
+//	scene := c.FormValue("scene")
+//	force,_ := strconv.ParseBool(c.FormValueDefault("force","false"))
+//	resp := this.MiniSvr.GetWxQrCode(componentAppid,appid,page,scene,force)
+//	if resp.IsSuccess() {
+//		url := fmt.Sprintf("%s://%s%s",utils.Scheme(c.Request()),c.Host(),c.Path()) + "/" + resp.Url
+//		resp.Url = strings.Replace(url,"getwxqrcode","prevqrcode",1)
+//	}
+//	c.JSON(resp)
+//}
+
+// 小程序二维码
+func (this *MiniAction) GetWXACode(c iris.Context)  {
 	componentAppid := c.Params().Get("componentAppid")
 	appid := c.Params().Get("appid")
 	path := c.FormValue("path")
-	scene := c.FormValue("scene")
 	force,_ := strconv.ParseBool(c.FormValueDefault("force","false"))
-	resp := this.MiniSvr.GetWxQrCode(componentAppid,appid,path,scene,force)
+	resp := this.MiniSvr.GetWxACode(componentAppid,appid,path,force)
 	if resp.IsSuccess() {
 		url := fmt.Sprintf("%s://%s%s",utils.Scheme(c.Request()),c.Host(),c.Path()) + "/" + resp.Url
-		resp.Url = strings.Replace(url,"getwxqrcode","prevqrcode",1)
+		resp.Url = strings.Replace(url,"getwxacode","prevqrcode",1)
+	}
+	c.JSON(resp)
+}
+
+// 小程序二维码
+func (this *MiniAction) GetWXACodeUnlimit(c iris.Context)  {
+	componentAppid := c.Params().Get("componentAppid")
+	appid := c.Params().Get("appid")
+	page := c.FormValue("page")
+	scene := c.FormValue("scene")
+	force,_ := strconv.ParseBool(c.FormValueDefault("force","false"))
+	resp := this.MiniSvr.GetWxACodeUnlimit(componentAppid,appid,page,scene,force)
+	if resp.IsSuccess() {
+		url := fmt.Sprintf("%s://%s%s",utils.Scheme(c.Request()),c.Host(),c.Path()) + "/" + resp.Url
+		resp.Url = strings.Replace(url,"getwxacodeunlimit","prevqrcode",1)
 	}
 	c.JSON(resp)
 }
