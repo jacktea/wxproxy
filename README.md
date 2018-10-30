@@ -1145,7 +1145,7 @@ __响应内容：__
 
 __请求方式：__ `GET`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/gettemplatedraftlist/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/gettemplatedraftlist/三方应用appid`
 
 __请求参数：__
 
@@ -1173,7 +1173,7 @@ __响应内容：__
 
 __请求方式：__ `GET`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/gettemplatelist/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/gettemplatelist/三方应用appid`
 
 __请求参数：__
 
@@ -1203,7 +1203,7 @@ __请求方式：__ `POST`
 
 __请 求 头：__ `Content-Type: application/json;charset=utf-8`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/addtotemplate/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/addtotemplate/三方应用appid`
 
 __请求参数：__
 
@@ -1228,7 +1228,7 @@ __请求方式：__ `POST`
 
 __请 求 头：__ `Content-Type: application/json;charset=utf-8`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/deletetemplate/三方应用appid/公众号appid`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/mini/codetplmgr/deletetemplate/三方应用appid`
 
 __请求参数：__
 
