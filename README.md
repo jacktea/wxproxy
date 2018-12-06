@@ -408,6 +408,32 @@ __请求参数：__
 | openid | string | 是    | 用户openid |  
 | content | string | 是    | 发送内容 | 
 
+#### 2.4.4 添加模板
+
+__请求方式：__ `POST`
+
+__请 求 头：__ `Content-Type: application/json;charset=utf-8`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api/msg/addmsgtpl/三方应用appid/公众号appid`
+
+__请求内容(参见微信公众平台)：__
+
+```json
+{
+  "template_id_short":"TM00015" //模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
+}
+```
+
+__响应内容：__
+
+```json
+{
+   "errcode":0,         //响应码 0 成功 非0 失败
+   "errmsg":"ok",       //错误信息描述
+   "template_id":"Doclyl5uP7Aciu-qZ7mJNPtWkbkYnWBWVja26EGbNyk" //模板ID
+}
+```
+
 ### 2.5 用户管理
 
 #### 2.5.1 获取用户基本信息

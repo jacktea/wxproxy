@@ -41,7 +41,7 @@ func (this *ApiAction) InitRouter(app *bootstrap.Bootstrapper) {
 	//发送模板消息
 	r.Post("/msg/tplmsg/{componentAppid}/{appid}",this.SendTplMsg)
 	//添加模板
-	r.Post("/msg/addmsgTpl/{componentAppid}/{appid}",this.AddTemplage)
+	r.Post("/msg/addmsgtpl/{componentAppid}/{appid}",this.AddTemplage)
 
 	log.Info("init api router")
 
