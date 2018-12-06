@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/kataras/iris"
+	. "github.com/jacktea/wxproxy/common"
 	"github.com/jacktea/wxproxy/service"
+	"github.com/kataras/iris"
 	"io/ioutil"
 )
 
@@ -32,4 +33,8 @@ func (a *ApiAction) SendTplMsg(c iris.Context) {
 		return
 	}
 	c.JSON(service.SUCCESS_RESP)
+}
+
+func (a *ApiAction) AddTemplage(c iris.Context) {
+	a.postTransparentJson(c, ADD_TEMPLATE)
 }

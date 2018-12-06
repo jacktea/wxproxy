@@ -208,10 +208,18 @@ func ossLoad(componentAppid, appid, fName string) (io.ReadCloser,error) {
 }
 
 func postSave(url string, params map[string]interface{}, componentAppid, appid string,force bool, action saveAction) *QrCodeResp {
-	jsonBytes , err := json.Marshal(params)
-	if err != nil {
+
+	bf := bytes.NewBuffer([]byte{})
+	jsonEncoder := json.NewEncoder(bf)
+	jsonEncoder.SetEscapeHTML(false)
+	if err := jsonEncoder.Encode(params) ; err !=nil {
 		return handleError(err)
 	}
+	jsonBytes := bf.Bytes()
+	//jsonBytes , err := json.Marshal(params)
+	//if err != nil {
+	//	return handleError(err)
+	//}
 	fName := utils.Md5(string(jsonBytes))
 
 	//如果文件存在并且不是强制刷新，则直接返回

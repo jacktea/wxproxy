@@ -1,10 +1,15 @@
 package api
 
 import (
-	. "github.com/jacktea/wxproxy/config"
-	"github.com/jacktea/wxproxy/service/api"
 	"github.com/jacktea/wxproxy/bootstrap"
+	. "github.com/jacktea/wxproxy/config"
+	"github.com/jacktea/wxproxy/service"
+	"github.com/jacktea/wxproxy/service/api"
+	"github.com/jacktea/wxproxy/utils"
 	"github.com/kataras/golog"
+	"github.com/kataras/iris"
+	"github.com/kataras/iris/context"
+	"net/http"
 )
 
 var log = golog.Default
@@ -35,8 +40,74 @@ func (this *ApiAction) InitRouter(app *bootstrap.Bootstrapper) {
 	r.Post("/msg/custommsg/{componentAppid}/{appid}",this.SendCustomMsg)
 	//发送模板消息
 	r.Post("/msg/tplmsg/{componentAppid}/{appid}",this.SendTplMsg)
+	//添加模板
+	r.Post("/msg/addmsgTpl/{componentAppid}/{appid}",this.AddTemplage)
 
 	log.Info("init api router")
 
+}
+
+func transPost(urlPrefix,token,contentType string,req *http.Request,c iris.Context) ([]byte,error) {
+	header,ret,err := utils.HttpPostRequestBody(urlPrefix+"?access_token="+token,contentType,req)
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return nil,err
+	}
+	c.ContentType(header.Get(context.ContentTypeHeaderKey))
+	_,err = c.Write(ret)
+	return ret,err
+}
+
+func transGet(urlPrefix,token string,c iris.Context) ([]byte,error) {
+	header,ret,err := utils.HttpGetProxy(urlPrefix+"?access_token="+token)
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return nil,err
+	}
+	c.ContentType(header.Get(context.ContentTypeHeaderKey))
+	_,err = c.Write(ret)
+	return ret,err
+}
+
+func (this *ApiAction) postTransparentJson(c iris.Context,urlPrefix string) ([]byte,error) {
+	componentAppid := c.Params().Get("componentAppid")
+	appid := c.Params().Get("appid")
+	token,err := this.Svr.GetAppAccessToken(componentAppid,appid)
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return nil,err
+	}
+	return transPost(urlPrefix,token,context.ContentJSONHeaderValue,c.Request(),c)
+}
+
+func (this *ApiAction) getTransparentJson(c iris.Context,urlPrefix string) ([]byte,error) {
+	componentAppid := c.Params().Get("componentAppid")
+	appid := c.Params().Get("appid")
+	token,err := this.Svr.GetAppAccessToken(componentAppid,appid)
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return nil,err
+	}
+	return transGet(urlPrefix,token,c)
+}
+
+func (this *ApiAction) postCmpTransparentJson(c iris.Context,urlPrefix string) ([]byte,error) {
+	componentAppid := c.Params().Get("componentAppid")
+	token,err := this.Svr.GetComponentAppAccessToken(componentAppid)
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return nil,err
+	}
+	return transPost(urlPrefix,token,context.ContentJSONHeaderValue,c.Request(),c)
+}
+
+func (this *ApiAction) getCmpTransparentJson(c iris.Context,urlPrefix string) ([]byte,error) {
+	componentAppid := c.Params().Get("componentAppid")
+	token,err := this.Svr.GetComponentAppAccessToken(componentAppid)
+	if err != nil {
+		c.JSON(service.NewServerErrorResp(err))
+		return nil,err
+	}
+	return transGet(urlPrefix,token,c)
 }
 

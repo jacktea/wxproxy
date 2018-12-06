@@ -1,8 +1,8 @@
 package mini
 
 import (
-	"github.com/kataras/iris"
 	. "github.com/jacktea/wxproxy/common"
+	"github.com/kataras/iris"
 )
 
 // 获取小程序的基本信息

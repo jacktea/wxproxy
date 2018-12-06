@@ -15,6 +15,8 @@ const (
 	SEND_CUSTOM_MSG			= "https://api.weixin.qq.com/cgi-bin/message/custom/send"
 	//发送模板消息
 	SEND_TPL_MSG			= "https://api.weixin.qq.com/cgi-bin/message/template/send"
+	// 添加模板
+	ADD_TEMPLATE			= "https://api.weixin.qq.com/cgi-bin/template/api_add_template"
 	//创建带参二维码
 	CREATE_PARAM_QRCODE = "https://api.weixin.qq.com/cgi-bin/qrcode/create"
 	//获取用户基本信息
