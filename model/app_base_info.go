@@ -1,14 +1,14 @@
 package model
 
 import (
-	"time"
 	"fmt"
 	"github.com/jacktea/wxproxy/utils"
+	"time"
 )
 
 type AppBaseInfo struct {
-	Id                         int64     `xorm:"pk autoincr"`
-	AppId                      string    `xorm:"unique"`
+	Id                         int64  `xorm:"pk autoincr"`
+	AppId                      string `xorm:"unique"`
 	AppSecret                  string
 	Token                      string
 	EncodingAesKey             string
@@ -74,7 +74,7 @@ func (m *proxyModel) UpdateAccessToken(appId string, accessToken string, expires
 	cnt, err := m.Engine.
 		Where("app_id = ? ", appId).
 		Update(&AppBaseInfo{ComponentAccessToken: accessToken,
-		ComponentAccessTokenExpire: e})
+			ComponentAccessTokenExpire: e})
 	if err != nil {
 		log.Error(err)
 	}
@@ -95,7 +95,7 @@ func (m *proxyModel) UpdatePreAuthCode(appId string, preAuthCode string, expires
 	cnt, err := m.Engine.
 		Where("app_id = ? ", appId).
 		Update(&AppBaseInfo{PreAuthCode: preAuthCode,
-		PreAuthCodeExpire: e})
+			PreAuthCodeExpire: e})
 	if err != nil {
 		log.Error(err)
 	}

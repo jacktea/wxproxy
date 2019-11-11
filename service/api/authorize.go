@@ -1,12 +1,12 @@
 package api
 
 import (
-	. "github.com/jacktea/wxproxy/common"
-	"github.com/jacktea/wxproxy/model"
-	"github.com/jacktea/wxproxy/etcd"
 	"fmt"
-	"strconv"
+	. "github.com/jacktea/wxproxy/common"
+	"github.com/jacktea/wxproxy/etcd"
+	"github.com/jacktea/wxproxy/model"
 	"github.com/jacktea/wxproxy/utils"
+	"strconv"
 )
 
 func (s *ApiServiceImpl) doAuthorize(componentAppid string, authorizationCode string) (string, error) {
@@ -68,7 +68,7 @@ func (s *ApiServiceImpl) UpdateAuthorizerInfo(componentAppid string, authorizerA
 	if err == nil {
 		aInfo := resp.AuthorizerInfo
 		miniProgram := 0
-		if aInfo.MiniProgramInfo != nil {//当前为小程序
+		if aInfo.MiniProgramInfo != nil { //当前为小程序
 			miniProgram = 1
 		}
 		dbInfo := &model.AuthorizationInfo{
@@ -83,7 +83,7 @@ func (s *ApiServiceImpl) UpdateAuthorizerInfo(componentAppid string, authorizerA
 			BusinessInfo:    toJsonStr(aInfo.BusinessInfo),
 			QrcodeUrl:       aInfo.QrcodeUrl,
 			Signature:       aInfo.Signature,
-			Miniprogram:	 miniProgram,
+			Miniprogram:     miniProgram,
 		}
 		defer delete(authInfos, authorizerAppid)
 		s.Repo.MergeAuthorizationInfo(dbInfo)
@@ -97,15 +97,15 @@ func (s *ApiServiceImpl) UpdateAuthorizationAppNotifyUrl(componentAppid string,
 	mode int,
 	debugNotifyUrl string) error {
 	item := model.AuthorizationAppInfo{
-		ComponentAppid:componentAppid,
-		Appid:appid,
-		NotifyUrl:notifyUrl,
-		Mode:mode,
-		DebugNotifyUrl:debugNotifyUrl,
+		ComponentAppid: componentAppid,
+		Appid:          appid,
+		NotifyUrl:      notifyUrl,
+		Mode:           mode,
+		DebugNotifyUrl: debugNotifyUrl,
 	}
-	_,err := s.Repo.MergeAuthorizationAppInfo(&item)
+	_, err := s.Repo.MergeAuthorizationAppInfo(&item)
 	//清除缓存
-	defer delete(authAppInfos,appid)
+	defer delete(authAppInfos, appid)
 	return err
 }
 

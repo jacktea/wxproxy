@@ -1,21 +1,19 @@
 package etcd
 
-
-
 import (
+	"fmt"
+	"github.com/coreos/etcd/embed"
+	"github.com/jacktea/wxproxy/config"
 	"log"
 	"net/url"
-	"github.com/coreos/etcd/embed"
 	"time"
-	"fmt"
-	"github.com/jacktea/wxproxy/config"
 )
 
-func startServer(conf *config.EtcdConf)  {
+func startServer(conf *config.EtcdConf) {
 	ch := make(chan *struct{})
-	go func(){
-		lcurl, _ := url.Parse(fmt.Sprintf("http://localhost:%d",conf.ClientPort))
-		lpurl, _ := url.Parse(fmt.Sprintf("http://localhost:%d",conf.PeerPort))
+	go func() {
+		lcurl, _ := url.Parse(fmt.Sprintf("http://localhost:%d", conf.ClientPort))
+		lpurl, _ := url.Parse(fmt.Sprintf("http://localhost:%d", conf.PeerPort))
 		cfg := embed.NewConfig()
 		cfg.Dir = conf.DataDir
 		cfg.ACUrls = []url.URL{*lcurl}
@@ -37,5 +35,5 @@ func startServer(conf *config.EtcdConf)  {
 		log.Fatal(<-e.Err())
 		ch <- &struct{}{}
 	}()
-	<- ch
+	<-ch
 }

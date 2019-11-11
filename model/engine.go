@@ -1,10 +1,10 @@
 package model
 
 import (
-	"github.com/go-xorm/xorm"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jacktea/wxproxy/config"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-xorm/xorm"
+	"github.com/jacktea/wxproxy/config"
 )
 
 type Engine struct {
@@ -28,7 +28,7 @@ func NewEngine(conf *config.DBConf) *Engine {
 		panic(err)
 	}
 	return &Engine{
-		Engine:engine,
+		Engine: engine,
 	}
 }
 

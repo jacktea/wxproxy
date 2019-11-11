@@ -1,19 +1,19 @@
 package bootstrap
 
 import (
-	"time"
-	"github.com/kataras/iris"
-	"github.com/kataras/iris/sessions"
-	"github.com/kataras/iris/websocket"
-	"github.com/gorilla/securecookie"
-	"github.com/facebookgo/inject"
-	"reflect"
 	"context"
 	"fmt"
-	"github.com/thoas/stats"
-	"github.com/kataras/iris/middleware/logger"
-	"github.com/kataras/iris/middleware/recover"
+	"reflect"
+	"time"
+
+	"github.com/facebookgo/inject"
+	"github.com/gorilla/securecookie"
 	"github.com/jacktea/wxproxy/config"
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/middleware/logger"
+	"github.com/kataras/iris/v12/middleware/recover"
+	"github.com/kataras/iris/v12/sessions"
+	"github.com/thoas/stats"
 )
 
 type Router interface {
@@ -118,17 +118,6 @@ func (b *Bootstrapper) SetupSessions(expires time.Duration, cookieHashKey, cooki
 	})
 }
 
-// SetupWebsockets prepares the websocket server.
-func (b *Bootstrapper) SetupWebsockets(endpoint string, onConnection websocket.ConnectionFunc) {
-	ws := websocket.New(websocket.Config{})
-	ws.OnConnection(onConnection)
-
-	b.Get(endpoint, ws.Handler())
-	b.Any("/iris-ws.js", func(ctx iris.Context) {
-		ctx.Write(websocket.ClientSource)
-	})
-}
-
 // SetupErrorHandlers prepares the http error handlers
 // `(context.StatusCodeNotSuccessful`,  which defaults to < 200 || >= 400 but you can change it).
 func (b *Bootstrapper) SetupErrorHandlers() {
@@ -204,5 +193,5 @@ func (b *Bootstrapper) Listen(addr string, cfgs ...iris.Configurator) {
 
 func (b *Bootstrapper) Start(cfgs ...iris.Configurator) {
 	httpConf := b.Conf.HttpConf
-	b.Run(iris.Addr(fmt.Sprintf("%v:%v",httpConf.Host,httpConf.Port)),cfgs...)
+	b.Run(iris.Addr(fmt.Sprintf("%v:%v", httpConf.Host, httpConf.Port)), cfgs...)
 }
