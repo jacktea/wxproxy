@@ -1,20 +1,20 @@
 package utils
 
 import (
-	"time"
-	"fmt"
-	"net/http"
 	"bytes"
+	"crypto/md5"
+	"fmt"
 	"math/rand"
+	"net/http"
 	"os"
 	"path/filepath"
-	"crypto/md5"
+	"time"
 )
 
 //解析过期时间
-func ParseExpire(expiresIn int64) (time.Time) {
+func ParseExpire(expiresIn int64) time.Time {
 	now := time.Now()
-	d, _ := time.ParseDuration(fmt.Sprintf("%ds",expiresIn))
+	d, _ := time.ParseDuration(fmt.Sprintf("%ds", expiresIn))
 	return now.Add(d)
 }
 
@@ -59,19 +59,19 @@ func FileExists(name string) bool {
 	return true
 }
 
-func ValidatePath(dirs []string) (string,bool) {
-	for _,v := range dirs {
+func ValidatePath(dirs []string) (string, bool) {
+	for _, v := range dirs {
 		if len(v) > 0 {
-			v,_ = filepath.Abs(v)
+			v, _ = filepath.Abs(v)
 			if FileExists(v) {
-				return v,true
+				return v, true
 			}
 		}
 	}
-	return "",false
+	return "", false
 }
 
 func Md5(in string) string {
 	has := md5.Sum([]byte(in))
-	return fmt.Sprintf("%x",has)
+	return fmt.Sprintf("%x", has)
 }

@@ -1,40 +1,39 @@
 package notify
 
 import (
-	"time"
 	"bytes"
-	"strings"
-	"encoding/xml"
-	"net/http"
 	"encoding/json"
-	"io/ioutil"
-	"github.com/jacktea/wxproxy/service/api"
-	"github.com/kataras/golog"
-	"github.com/kataras/iris"
-	"github.com/jacktea/wxproxy/service"
-	. "github.com/jacktea/wxproxy/wxmsg"
-	. "github.com/jacktea/wxproxy/config"
+	"encoding/xml"
 	"github.com/jacktea/wxproxy/bootstrap"
+	. "github.com/jacktea/wxproxy/config"
+	"github.com/jacktea/wxproxy/service"
+	"github.com/jacktea/wxproxy/service/api"
+	. "github.com/jacktea/wxproxy/wxmsg"
+	"github.com/kataras/golog"
+	"github.com/kataras/iris/v12"
+	"io/ioutil"
+	"net/http"
+	"strings"
+	"time"
 )
 
 //var httpNotify = h.NewHttpNotify()
 var log = golog.Default
 
 type NotifyAction struct {
-	Svr api.ApiService	`inject:""`
+	Svr api.ApiService `inject:""`
 }
 
 func (this *NotifyAction) InitRouter(app *bootstrap.Bootstrapper) {
-	app.Post(WXConf.HttpConf.ContextPath+"/{componentAppid}/notify",this.Notify)
-	app.Post(WXConf.HttpConf.ContextPath+"/{componentAppid}/{appid}/notify",this.NotifyApp)
+	app.Post(WXConf.HttpConf.ContextPath+"/{componentAppid}/notify", this.Notify)
+	app.Post(WXConf.HttpConf.ContextPath+"/{componentAppid}/{appid}/notify", this.NotifyApp)
 
-	party := app.Party(WXConf.HttpConf.ContextPath+"/notify")
-	party.Post("/global/{componentAppid}",this.Notify)
-	party.Post("/app/{componentAppid}/{appid}",this.NotifyApp)
-	party.Post("/app/{appid}",this.NotifyApp)
+	party := app.Party(WXConf.HttpConf.ContextPath + "/notify")
+	party.Post("/global/{componentAppid}", this.Notify)
+	party.Post("/app/{componentAppid}/{appid}", this.NotifyApp)
+	party.Post("/app/{appid}", this.NotifyApp)
 	log.Info("init notify router...")
 }
-
 
 func (this *NotifyAction) Notify(c iris.Context) {
 	componentAppid := c.Params().Get("componentAppid")
@@ -43,7 +42,7 @@ func (this *NotifyAction) Notify(c iris.Context) {
 	nonce := c.FormValue("nonce")
 	log.Debug(componentAppid, msgSignature, timestamp, nonce)
 
-	encypter ,err := this.Svr.CacheGetWxEncrypter(componentAppid)
+	encypter, err := this.Svr.CacheGetWxEncrypter(componentAppid)
 	if err != nil {
 		log.Error(err)
 		c.JSON(service.NewServerErrorResp(err))
@@ -74,12 +73,12 @@ func (this *NotifyAction) Notify(c iris.Context) {
 	case "unauthorized": //取消授权通知
 		go this.Svr.AuthorizedCancel(componentAppid, oMsg.AuthorizerAppid)
 	}
-	go this.notifyApp(componentAppid,oMsg.AuthorizerAppid,oMsg)
+	go this.notifyApp(componentAppid, oMsg.AuthorizerAppid, oMsg)
 
 	c.WriteString("success")
 }
 
-func (this *NotifyAction) notifyApp(componentAppid, appid string,msg interface{}) {
+func (this *NotifyAction) notifyApp(componentAppid, appid string, msg interface{}) {
 	if appid == "" {
 		return
 	}
@@ -94,13 +93,13 @@ func (this *NotifyAction) notifyApp(componentAppid, appid string,msg interface{}
 }
 
 func (this *NotifyAction) NotifyApp(c iris.Context) {
-	componentAppid := c.Params().Get("componentAppid") 	//第三方应用APPID
+	componentAppid := c.Params().Get("componentAppid") //第三方应用APPID
 	appid := c.Params().Get("appid")                   //授权方APPID
 	msgSignature := c.FormValue("msg_signature")       //消息签名
 	timestamp := c.FormValue("timestamp")              //时间戳
 	nonce := c.FormValue("nonce")                      //随机码
 
-	encypter ,err := this.Svr.CacheGetWxEncrypter(componentAppid)
+	encypter, err := this.Svr.CacheGetWxEncrypter(componentAppid)
 	if err != nil {
 		log.Error(err)
 		c.JSON(service.NewServerErrorResp(err))
@@ -137,17 +136,17 @@ func (this *NotifyAction) NotifyApp(c iris.Context) {
 				//httpNotify.AddTask(info.NotifyUrl,data)
 
 				/*
-				res,err := http.Post(info.NotifyUrl,"application/json",bytes.NewBuffer(data))
-				if err != nil {
-					Logger.Errorf("请求: %v 失败，请求内容: %v，错误信息:%v",info.NotifyUrl,string(data),err)
-				}else {
-					d,err := ioutil.ReadAll(res.Body)
+					res,err := http.Post(info.NotifyUrl,"application/json",bytes.NewBuffer(data))
 					if err != nil {
-						Logger.Errorf("请求: %v 成功，请求内容: %v，解析响应数据失败，错误信息:%v",info.NotifyUrl,string(data),err)
+						Logger.Errorf("请求: %v 失败，请求内容: %v，错误信息:%v",info.NotifyUrl,string(data),err)
 					}else {
-						Logger.Infof("请求: %v 成功，请求内容:%v，响应信息: %v",info.NotifyUrl,string(data),string(d))
+						d,err := ioutil.ReadAll(res.Body)
+						if err != nil {
+							Logger.Errorf("请求: %v 成功，请求内容: %v，解析响应数据失败，错误信息:%v",info.NotifyUrl,string(data),err)
+						}else {
+							Logger.Infof("请求: %v 成功，请求内容:%v，响应信息: %v",info.NotifyUrl,string(data),string(d))
+						}
 					}
-				}
 				*/
 
 				postJson(info.NotifyUrl, data)
@@ -161,15 +160,15 @@ func (this *NotifyAction) NotifyApp(c iris.Context) {
 	})(componentAppid, appid, wxMsg)
 
 	/*
-	switch wxMsg.MsgType {
-	case "event":
-	case "text":
-	case "image":
-	case "voice":
-	case "video","shortvideo":
-	case "location":
-	case "link":
-	}
+		switch wxMsg.MsgType {
+		case "event":
+		case "text":
+		case "image":
+		case "voice":
+		case "video","shortvideo":
+		case "location":
+		case "link":
+		}
 	*/
 	c.WriteString("success")
 }

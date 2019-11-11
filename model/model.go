@@ -26,14 +26,13 @@ type ModelRepository interface {
 	MergeAuthorizationInfo(aai *AuthorizationInfo) (bool, error)
 
 	//查找小程序的预览信息
-	FindMiniPrgmPrevInfo(appid string) (*MiniPrgmPrevInfo,bool)
+	FindMiniPrgmPrevInfo(appid string) (*MiniPrgmPrevInfo, bool)
 	//更新小程序的预览信息
-	MergeMiniPrgmPrevInfo(aai *MiniPrgmPrevInfo) (ret bool ,err error)
-
+	MergeMiniPrgmPrevInfo(aai *MiniPrgmPrevInfo) (ret bool, err error)
 }
 
 type proxyModel struct {
-	Engine *Engine	`inject:""`
+	Engine *Engine `inject:""`
 }
 
 func NewApiModel() ModelRepository {

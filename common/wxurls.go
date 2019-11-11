@@ -2,21 +2,21 @@ package common
 
 const (
 	//三方应用刷新TOKEN
-	API_COMPONENT_TOKEN 	= "https://api.weixin.qq.com/cgi-bin/component/api_component_token"
+	API_COMPONENT_TOKEN = "https://api.weixin.qq.com/cgi-bin/component/api_component_token"
 	//三方应用刷新预授权码
-	API_CREATE_PREAUTHCODE 	= "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode"
+	API_CREATE_PREAUTHCODE = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode"
 	//公众号/小程序授权
-	API_QUERY_QUTH 			= "https://api.weixin.qq.com/cgi-bin/component/api_query_auth"
+	API_QUERY_QUTH = "https://api.weixin.qq.com/cgi-bin/component/api_query_auth"
 	//获取公众号/小程序信息
 	API_GET_AUTHORIZER_INFO = "https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info"
 	//刷新公众号/小程序Token
-	API_AUTHORIZER_TOKEN    = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token"
+	API_AUTHORIZER_TOKEN = "https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token"
 	//发送客服短信
-	SEND_CUSTOM_MSG			= "https://api.weixin.qq.com/cgi-bin/message/custom/send"
+	SEND_CUSTOM_MSG = "https://api.weixin.qq.com/cgi-bin/message/custom/send"
 	//发送模板消息
-	SEND_TPL_MSG			= "https://api.weixin.qq.com/cgi-bin/message/template/send"
+	SEND_TPL_MSG = "https://api.weixin.qq.com/cgi-bin/message/template/send"
 	// 添加模板
-	ADD_TEMPLATE			= "https://api.weixin.qq.com/cgi-bin/template/api_add_template"
+	ADD_TEMPLATE = "https://api.weixin.qq.com/cgi-bin/template/api_add_template"
 	//创建带参二维码
 	CREATE_PARAM_QRCODE = "https://api.weixin.qq.com/cgi-bin/qrcode/create"
 	//获取用户基本信息
@@ -63,7 +63,6 @@ const (
 	UNBIND_MINI_TESTER = "https://api.weixin.qq.com/wxa/unbind_tester"
 	//3. 获取小程序体验者 https://api.weixin.qq.com/wxa/memberauth?access_token=TOKEN
 	GET_MINI_TESTER = "https://api.weixin.qq.com/wxa/memberauth"
-
 
 	//代码管理 miniprogram/code.go
 	//1. 为授权的小程序帐号上传小程序代码 https://api.weixin.qq.com/wxa/commit?access_token=TOKEN
@@ -151,20 +150,5 @@ const (
 	//1. 申请使用插件接口 POST https://api.weixin.qq.com/wxa/plugin?access_token=TOKEN
 	//2. 查询已添加的插件 POST https://api.weixin.qq.com/wxa/plugin?access_token=TOKEN
 	//3. 删除已添加的插件 POST https://api.weixin.qq.com/wxa/plugin?access_token=TOKEN
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 )

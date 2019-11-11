@@ -3,7 +3,7 @@ package api
 import (
 	. "github.com/jacktea/wxproxy/common"
 	"github.com/jacktea/wxproxy/service"
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/v12"
 	"io/ioutil"
 )
 
@@ -11,9 +11,9 @@ import (
 func (a *ApiAction) SendCustomMsg(c iris.Context) {
 	componentAppid := c.Params().Get("componentAppid")
 	appid := c.Params().Get("appid")
-	d,_ := ioutil.ReadAll(c.Request().Body)
+	d, _ := ioutil.ReadAll(c.Request().Body)
 	content := string(d)
-	err := a.Svr.SendCustomMsg(componentAppid, appid,content)
+	err := a.Svr.SendCustomMsg(componentAppid, appid, content)
 	if err != nil {
 		c.JSON(service.NewServerErrorResp(err))
 		return
@@ -25,9 +25,9 @@ func (a *ApiAction) SendCustomMsg(c iris.Context) {
 func (a *ApiAction) SendTplMsg(c iris.Context) {
 	componentAppid := c.Params().Get("componentAppid")
 	appid := c.Params().Get("appid")
-	d,_ := ioutil.ReadAll(c.Request().Body)
+	d, _ := ioutil.ReadAll(c.Request().Body)
 	content := string(d)
-	err := a.Svr.SendTplMsg(componentAppid, appid,content)
+	err := a.Svr.SendTplMsg(componentAppid, appid, content)
 	if err != nil {
 		c.JSON(service.NewServerErrorResp(err))
 		return

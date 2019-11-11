@@ -1,14 +1,14 @@
 package api
 
 import (
+	"encoding/json"
 	. "github.com/jacktea/wxproxy/common"
 	"github.com/jacktea/wxproxy/utils"
-	"encoding/json"
 )
 
 /**
 获取用户基本信息
- */
+*/
 func (a *ApiServiceImpl) GetUserBaseInfo(componentAppid string, authorizerAppid string, openid string) (*UserBaseInfoResp, error) {
 	accessToken, err := a.GetAppAccessToken(componentAppid, authorizerAppid)
 	if err != nil {

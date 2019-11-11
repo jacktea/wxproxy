@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/kataras/iris"
 	"github.com/jacktea/wxproxy/service"
+	"github.com/kataras/iris/v12"
 )
 
 //更新第三方应用Token
@@ -38,4 +38,3 @@ func (a *ApiAction) RefreshAppAuthorizationToken(c iris.Context) {
 	}
 	c.JSON(service.SUCCESS_RESP)
 }
-

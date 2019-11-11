@@ -2,10 +2,9 @@ package cache
 
 import (
 	//"github.com/jacktea/golang-lru/simplelru"
-	"time"
 	"github.com/bluele/gcache"
+	"time"
 )
-
 
 type Cache interface {
 	Get(interface{}) (interface{}, bool)
@@ -17,27 +16,27 @@ type zCache struct {
 	cache gcache.Cache
 }
 
-func NewCache(size int,expiration time.Duration) (*zCache) {
+func NewCache(size int, expiration time.Duration) *zCache {
 	return &zCache{
-		cache : gcache.New(size).Expiration(expiration).LRU().Build(),
+		cache: gcache.New(size).Expiration(expiration).LRU().Build(),
 	}
 }
 
-func (c *zCache)Get(key interface{}) (interface{}, bool) {
-	v,err := c.cache.Get(key)
-	if err!=nil {
-		return nil,false
-	}else {
-		return v,true
+func (c *zCache) Get(key interface{}) (interface{}, bool) {
+	v, err := c.cache.Get(key)
+	if err != nil {
+		return nil, false
+	} else {
+		return v, true
 	}
 }
 
-func (c *zCache)Set(key,value interface{}) bool {
-	return c.cache.Set(key,value) == nil
+func (c *zCache) Set(key, value interface{}) bool {
+	return c.cache.Set(key, value) == nil
 }
 
-func (c *zCache)Add(key,value interface{}) bool {
-	return c.cache.Set(key,value) == nil
+func (c *zCache) Add(key, value interface{}) bool {
+	return c.cache.Set(key, value) == nil
 }
 
 /*
