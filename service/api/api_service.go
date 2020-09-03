@@ -1,16 +1,15 @@
 package api
 
 import (
-	"github.com/jacktea/wxproxy/model"
-	"sync"
-	"github.com/kataras/golog"
 	"github.com/gomydodo/wxencrypter"
+	"github.com/jacktea/wxproxy/model"
+	"github.com/kataras/golog"
+	"sync"
 )
 
 var log = golog.Default
 
 type ApiService interface {
-
 	CacheFindAppBaseInfo(appId string) (info *model.AppBaseInfo, ok bool)
 	CacheFindAuthorizationAccessInfo(componentAppid string, appid string) (info *model.AuthorizationAccessInfo, ok bool)
 	CacheFindAuthorizationInfo(appid string) (info *model.AuthorizationInfo, ok bool)
@@ -21,42 +20,46 @@ type ApiService interface {
 	StartEtcdWatch()
 
 	//更新三方应用票据
-	UpdateTicket(appId string,ticket string) error
+	UpdateTicket(appId string, ticket string) error
 	//更新三方应用访问Token
-	UpdateAccessToken(appId string,force bool) (*model.AppBaseInfo,error)
+	UpdateAccessToken(appId string, force bool) (*model.AppBaseInfo, error)
 	//更新第三方应用预授权码
-	UpdatePreAuthCode(appId string,force bool) error
+	UpdatePreAuthCode(appId string, force bool) error
 	//获取第三方应用访问token
 	GetComponentAppAccessToken(componentAppid string) (string, error)
 	//刷新托管公众号(小程序)访问Token
-	RefreshAuthorizationToken(componentAppid string,appid string,force bool) (*model.AuthorizationAccessInfo,error)
+	RefreshAuthorizationToken(componentAppid string, appid string, force bool) (*model.AuthorizationAccessInfo, error)
 	//获取托管公众号(小程序)访问Token
 	GetAppAccessToken(componentAppid string, appid string) (string, error)
 	//更新托管公众号(小程序)信息
-	UpdateAuthorizerInfo(componentAppid string,authorizerAppid string)  error
+	UpdateAuthorizerInfo(componentAppid string, authorizerAppid string) error
 	//更新托管公众号(小程序)回调地址
-	UpdateAuthorizationAppNotifyUrl(componentAppid string,appid string,notifyUrl string,mode int,debugNotifyUrl string) error
+	UpdateAuthorizationAppNotifyUrl(componentAppid string, appid string, notifyUrl string, mode int, debugNotifyUrl string) error
 
 	//公众号(小程序)授权时通知回调
-	DoAuthorize(componentAppid string,authorizerAppid string,authorizationCode string) (string,error)
+	DoAuthorize(componentAppid string, authorizerAppid string, authorizationCode string) (string, error)
 	//公众号(小程序)授权时网页回调
-	DoAuthorizerInfo(componentAppid string,authorizationCode string) (string,error)
+	DoAuthorizerInfo(componentAppid string, authorizationCode string) (string, error)
 	//更新授权状态为授权成功
-	AuthorizedSuccess(componentAppid string,authorizerAppid string) bool
+	AuthorizedSuccess(componentAppid string, authorizerAppid string) bool
 	//取消授权
-	AuthorizedCancel(componentAppid string,authorizerAppid string) bool
+	AuthorizedCancel(componentAppid string, authorizerAppid string) bool
 
 	//发送客服消息
-	SendCustomMsg(componentAppid string,authorizerAppid string,v interface{}) error
+	SendCustomMsg(componentAppid string, authorizerAppid string, v interface{}) error
 	//发送模板消息
-	SendTplMsg(componentAppid string,authorizerAppid string,v interface{}) error
+	SendTplMsg(componentAppid string, authorizerAppid string, v interface{}) error
 
 	//创建关注二维码
-	CreateParamQrcode(componentAppid string,authorizerAppid string,identity string,expire_seconds int64,forever bool) (*QrcodeResp,error)
+	CreateParamQrcode(componentAppid string, authorizerAppid string, identity string, expire_seconds int64, forever bool) (*QrcodeResp, error)
 
 	//获取用户基本信息
-	GetUserBaseInfo(componentAppid string,authorizerAppid string,openid string) (*UserBaseInfoResp,error)
+	GetUserBaseInfo(componentAppid string, authorizerAppid string, openid string) (*UserBaseInfoResp, error)
 
+	// 查找代理API
+	FindProxyApi(id int64) (*model.ProxyApi, bool)
+	// 新增或修改代理API
+	MergeProxyApi(aai *model.ProxyApi) (ret bool, err error)
 }
 
 type ApiServiceImpl struct {
@@ -64,11 +67,16 @@ type ApiServiceImpl struct {
 	lock sync.RWMutex
 }
 
+func (s *ApiServiceImpl) FindProxyApi(id int64) (info *model.ProxyApi, ok bool) {
+	return s.Repo.FindProxyApi(id)
+}
+
+func (s *ApiServiceImpl) MergeProxyApi(aai *model.ProxyApi) (ret bool, err error) {
+	return s.Repo.MergeProxyApi(aai)
+}
+
 func NewApiService() ApiService {
 	ret := new(ApiServiceImpl)
 	ret.StartEtcdWatch()
 	return ret
 }
-
-
-

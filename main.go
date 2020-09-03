@@ -1,41 +1,41 @@
 package main
 
 import (
-	"github.com/kataras/iris"
-	api "github.com/jacktea/wxproxy/router/api"
-	sapi "github.com/jacktea/wxproxy/service/api"
-	"github.com/jacktea/wxproxy/router/notify"
-	"github.com/jacktea/wxproxy/model"
+	"github.com/jacktea/wxproxy/bootstrap"
 	"github.com/jacktea/wxproxy/config"
 	"github.com/jacktea/wxproxy/etcd"
+	"github.com/jacktea/wxproxy/model"
+	api "github.com/jacktea/wxproxy/router/api"
 	"github.com/jacktea/wxproxy/router/authorize"
+	"github.com/jacktea/wxproxy/router/notify"
 	"github.com/jacktea/wxproxy/router/wxauth"
-	"github.com/jacktea/wxproxy/bootstrap"
+	sapi "github.com/jacktea/wxproxy/service/api"
+	"github.com/kataras/iris"
 
-	kp "gopkg.in/alecthomas/kingpin.v2"
-	"os/exec"
-	"fmt"
-	"os"
-	"time"
-	"github.com/kataras/golog"
 	"bufio"
-	"os/signal"
-	"syscall"
+	"fmt"
 	"github.com/jacktea/wxproxy/router/mini"
 	"github.com/jacktea/wxproxy/service/miniprogram"
+	"github.com/kataras/golog"
+	kp "gopkg.in/alecthomas/kingpin.v2"
+	"os"
+	"os/exec"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 var (
-	app	= kp.New("wxproxy", "微信代理").Author("zzg").Version("1.0.0")
-	cmd *exec.Cmd
-	log = golog.Default
-	daemon = app.Flag("daemon","后台运行").Bool()
+	app     = kp.New("wxproxy", "微信代理").Author("zzg").Version("1.0.0")
+	cmd     *exec.Cmd
+	log     = golog.Default
+	daemon  = app.Flag("daemon", "后台运行").Bool()
 	forever = app.Flag("forever", "守护进程方式运行").Default("false").Bool()
-	cfgPath = app.Flag("conf","配置文件路径").Short('c').String()
+	cfgPath = app.Flag("conf", "配置文件路径").Short('c').String()
 	logfile = app.Flag("log", "日志文件路径").Short('l').String()
 )
 
-func initConfig() (master bool,err error) {
+func initConfig() (master bool, err error) {
 	app.Parse(os.Args[1:])
 
 	master = false
@@ -47,7 +47,7 @@ func initConfig() (master bool,err error) {
 		log.SetOutput(f)
 	}
 	if *daemon {
-		args := make([]string,0)
+		args := make([]string, 0)
 		for _, arg := range os.Args[1:] {
 			if arg != "--daemon" {
 				args = append(args, arg)
@@ -63,7 +63,7 @@ func initConfig() (master bool,err error) {
 		os.Exit(0)
 	}
 	if *forever {
-		args := make([]string,0)
+		args := make([]string, 0)
 		for _, arg := range os.Args[1:] {
 			if arg != "--forever" {
 				args = append(args, arg)
@@ -140,8 +140,8 @@ func startWeb(conf *config.Config) {
 		InitMiddleware().
 		InitRouter().
 		Start(
-		iris.WithoutServerError(iris.ErrServerClosed),
-		iris.WithoutInterruptHandler)
+			iris.WithoutServerError(iris.ErrServerClosed),
+			iris.WithoutInterruptHandler)
 }
 
 func waitSignal() {
@@ -164,24 +164,22 @@ func waitSignal() {
 
 func main() {
 
-	master,err := initConfig()
+	master, err := initConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	conf,err := config.NewConfig(*cfgPath)
+	conf, err := config.NewConfig(*cfgPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.SetLevel(conf.CommonConf.LogLevel)
 	if master {
 		waitSignal()
-	}else {
+	} else {
 		startWeb(conf)
 	}
 	//conf,_ := config.NewConfig("")
-
-
 
 	//var g inject.Graph
 	//g.Provide(

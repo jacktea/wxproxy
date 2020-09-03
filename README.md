@@ -128,14 +128,14 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| force | bool | 否    | 强制重新获取 |  
+| force | bool | 否    | 强制重新获取 |
 
 __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
 
 #### 2.2.3 刷新三方应预授权码
 
@@ -149,14 +149,14 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| force | bool | 否    | 强制重新获取 |  
+| force | bool | 否    | 强制重新获取 |
 
 __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
 
 #### 2.2.4 刷新公众号/小程序访问toekn
 
@@ -170,14 +170,14 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| force | bool | 否    | 强制重新获取 |  
+| force | bool | 否    | 强制重新获取 |
 
 __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
 
 #### 2.2.5 更新公众号对应应用的消息通知地址
 
@@ -191,16 +191,16 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| notify_url | string | 是    | 公众号消息通知回调地址通知回调地址 |  
-| mode | int | 是    | 模式 1普通 2调试，在调试模式下会同时向notify_url和debug_notify_url推送消息 | 
-| debug_notify_url | string | 是    | 调试模式下的推送通知回调地址 | 
+| notify_url | string | 是    | 公众号消息通知回调地址通知回调地址 |
+| mode | int | 是    | 模式 1普通 2调试，在调试模式下会同时向notify_url和debug_notify_url推送消息 |
+| debug_notify_url | string | 是    | 调试模式下的推送通知回调地址 |
 
 __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
 
 #### 2.2.6 创建带参关注二维码
 
@@ -215,20 +215,20 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| identity | string | 是    | 参数标识 |  
-| expire | int | 是    | 过期时间 | 
-| forever | bool | 是    | 是否为永久二维码 | 
+| identity | string | 是    | 参数标识 |
+| expire | int | 是    | 过期时间 |
+| forever | bool | 是    | 是否为永久二维码 |
 
 
 __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
-| ticket | string | 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。 |  
-| expire_seconds | int | 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天）。 |  
-| url | string | 二维码图片解析后的地址，开发者可根据该地址自行生成需要的二维码图片 |  
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
+| ticket | string | 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。 |
+| expire_seconds | int | 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天）。 |
+| url | string | 二维码图片解析后的地址，开发者可根据该地址自行生成需要的二维码图片 |
 
 #### 2.2.7 获取公众号相关信息
 
@@ -240,20 +240,20 @@ __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
-| appid | string | 授权方appid | 
-| nickName | string | 授权方昵称 | 
-| headImg | string | 授权方头像地址 | 
-| serviceTypeInfo | string | 授权方公众号类型，0代表订阅号，1代表由历史老帐号升级后的订阅号，2代表服务号 | 
-| verifyTypeInfo | string | 授权方认证类型 | 
-| userName | string | 授权方公众号的原始ID | 
-| principalName | string | 公众号的主体名称 | 
-| alias | string | 授权方公众号所设置的微信号，可能为空 | 
-| businessInfo | string | 业务功能开通情况 | 
-| qrcodeUrl | string | 二维码图片的URL，开发者最好自行也进行保存 | 
-| accessToken | string | 访问token | 
-| accessTokenExpire | string | 访问token过期时间 | 
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
+| appid | string | 授权方appid |
+| nickName | string | 授权方昵称 |
+| headImg | string | 授权方头像地址 |
+| serviceTypeInfo | string | 授权方公众号类型，0代表订阅号，1代表由历史老帐号升级后的订阅号，2代表服务号 |
+| verifyTypeInfo | string | 授权方认证类型 |
+| userName | string | 授权方公众号的原始ID |
+| principalName | string | 公众号的主体名称 |
+| alias | string | 授权方公众号所设置的微信号，可能为空 |
+| businessInfo | string | 业务功能开通情况 |
+| qrcodeUrl | string | 二维码图片的URL，开发者最好自行也进行保存 |
+| accessToken | string | 访问token |
+| accessTokenExpire | string | 访问token过期时间 |
 | authorizationStatus | string | 公众号授权状态 0 无效 1 授权成功 2 取消授权 |
 | mode | int | 通知模式 1普通 2调试 |
 | notifyUrl | string | 回调通知URL |
@@ -339,8 +339,8 @@ __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
 
 #### 2.4.2 发送模板消息
 
@@ -390,8 +390,8 @@ __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 |  
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
 
 #### 2.4.3 发送客服文本消息
 
@@ -405,8 +405,8 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| openid | string | 是    | 用户openid |  
-| content | string | 是    | 发送内容 | 
+| openid | string | 是    | 用户openid |
+| content | string | 是    | 发送内容 |
 
 #### 2.4.4 添加模板
 
@@ -448,14 +448,14 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| openid | string | 是    | 用户openid |  
+| openid | string | 是    | 用户openid |
 
 __响应内容：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| errcode | int | 响应码 0 成功 非0 失败 |  
-| errmsg | string | 错误信息描述 | 
+| errcode | int | 响应码 0 成功 非0 失败 |
+| errmsg | string | 错误信息描述 |
 | subscribe | int |	用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。|
 | openid	| string |用户的标识，对当前公众号唯一|
 | nickname | string |	用户的昵称|
@@ -500,11 +500,11 @@ __请求参数：__
 
 | 参数名称       | 描述                |
 | :---------- | :----------------- |
-| action | add添加, delete删除, set覆盖, get获取。当参数是get时不需要填四个域名字段 |  
-| requestdomain | request合法域名，当action参数是get时不需要此字段 | 
-| wsrequestdomain | socket合法域名，当action参数是get时不需要此字段 | 
-| uploaddomain | uploadFile合法域名，当action参数是get时不需要此字段 | 
-| downloaddomain | downloadFile合法域名，当action参数是get时不需要此字段 | 
+| action | add添加, delete删除, set覆盖, get获取。当参数是get时不需要填四个域名字段 |
+| requestdomain | request合法域名，当action参数是get时不需要此字段 |
+| wsrequestdomain | socket合法域名，当action参数是get时不需要此字段 |
+| uploaddomain | uploadFile合法域名，当action参数是get时不需要此字段 |
+| downloaddomain | downloadFile合法域名，当action参数是get时不需要此字段 |
 
 __响应内容：__
 
@@ -538,8 +538,8 @@ __请求参数：__
 
 | 参数名称       | 描述                |
 | :---------- | :----------------- |
-| action | add添加, delete删除, set覆盖, get获取。当参数是get时不需要填 |  
-| webviewdomain | 小程序业务域名，当action参数是get时不需要此字段 | 
+| action | add添加, delete删除, set覆盖, get获取。当参数是get时不需要填 |
+| webviewdomain | 小程序业务域名，当action参数是get时不需要此字段 |
 
 __响应内容：__
 
@@ -776,8 +776,8 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| force | bool | 否    | true是每次重新提交代码 |  
-| path | string | 否    | 小程序内页面路径 | 
+| force | bool | 否    | true是每次重新提交代码 |
+| path | string | 否    | 小程序内页面路径 |
 
 ```json
   {
@@ -849,7 +849,7 @@ __请求参数：__
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| path | string | 否    | 小程序内页面路径 | 
+| path | string | 否    | 小程序内页面路径 |
 
 __响应内容：__
 
@@ -870,8 +870,8 @@ __访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getwxacode/三�
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| path  | string | 否    | 小程序内页面路径 | 
-| force | bool   | 否    | 强制重新获取 | 
+| path  | string | 否    | 小程序内页面路径 |
+| force | bool   | 否    | 强制重新获取 |
 
 __响应内容：__
 
@@ -891,9 +891,9 @@ __访问地址：__ `http://www.ishanshan.com/wxproxy/mini/code/getwxacodeunlimi
 
 | 参数名称       | 类型     | 是否必须 | 描述                |
 | :---------- | :------ | :---- | :----------------- |
-| path  | string | 否    | 小程序内页面路径 | 
-| scene  | string | 否    | 页面参数 | 
-| force | bool   | 否    | 强制重新获取 | 
+| path  | string | 否    | 小程序内页面路径 |
+| scene  | string | 否    | 页面参数 |
+| force | bool   | 否    | 强制重新获取 |
 
 __响应内容：__
 
@@ -1283,7 +1283,7 @@ __请求参数：__
 
 | 参数名称       | 类型     | 描述             |
 | :---------- | :------ | :----------------- |
-| js_code | String | 登录时获取的 code |  
+| js_code | String | 登录时获取的 code |
 
 
 __响应内容：__
@@ -1302,3 +1302,19 @@ __响应内容：__
 ### 3.9 基础信息设置
 
 ### 3.10 小程序插件管理权限集
+
+### 3.11 通用代理
+
+__请求方式：__ `POST`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api/proxyByDb/三方应用appid/公众号appid/APIID`
+
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api/proxyByDb/三方应用appid/APIID`
+
+| APIID  | 说明         |
+| ------ | ------------ |
+| 100100 | 获取模板列表 |
+
+__请求参数：__ 见微信官方API
+
+__响应内容：__ 见微信官方API
