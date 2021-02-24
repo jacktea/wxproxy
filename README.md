@@ -1305,11 +1305,11 @@ __响应内容：__
 
 ### 3.11 通用代理
 
-__请求方式：__ `POST`
+__请求方式：__ `ANY`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/api/proxyByDb/三方应用appid/公众号appid/APIID`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api/proxyByDbEx/三方应用appid/公众号appid/APIID`
 
-__访问地址：__ `http://www.ishanshan.com/wxproxy/api/proxyByDb/三方应用appid/APIID`
+__访问地址：__ `http://www.ishanshan.com/wxproxy/api/proxyByDbEx/三方应用appid/APIID`
 
 | APIID  | 说明         |
 | ------ | ------------ |
